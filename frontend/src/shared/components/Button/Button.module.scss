@@ -1,0 +1,56 @@
+.Button {
+  margin: 1em auto;
+  padding: 1em 2em;
+  font-size: 1.3em;
+  font-weight: 700;
+  border: none;
+  border-radius: 5px;
+  letter-spacing: 0.4px;
+  cursor: pointer;
+  outline: none;
+}
+
+// .Button:disabled {
+//   color: $btnDisabledColor;
+//   background-color: $btnDisabledBackgroundColor;
+//   cursor: not-allowed;
+// }
+
+// // type: primary
+// .primary:not([disabled]) {
+//   background-color: $btnPrimColor;
+//   color: white;
+// }
+
+// .primary:not([disabled]):focus,
+// .primary:not([disabled]):hover {
+//   background-color: $btnPrimHoverColor;
+// }
+
+// // type: secondary
+// .secondary:not([disabled]) {
+//   background-color: $btnSecColor;
+//   border: 1px solid black;
+// }
+
+// .secondary:not([disabled]):focus,
+// .secondary:not([disabled]):hover {
+//   background-color: $btnSecHoverColor;
+// }
+
+// // type: link
+// .link:not([disabled]) {
+//   background-color: $btnLinkColor;
+// }
+
+// .link:not([disabled]):focus,
+// .link:not([disabled]):hover {
+//   background-color: $btnLinkHoverColor;
+// }
+
+@media (max-width: 280px) {
+  .Button {
+    padding: 1em 10vw;
+    font-size: 1em;
+  }
+}

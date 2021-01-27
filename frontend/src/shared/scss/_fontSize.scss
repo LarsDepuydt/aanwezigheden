@@ -1,0 +1,44 @@
+// text settings
+// p
+$font-min-p: 11px;
+$font-max-p: 15px;
+// h2
+$font-min-h2: 20px;
+$font-max-h2: 40px;
+//h3
+$font-min-h3: 20px;
+$font-max-h3: 30px;
+//h4
+$font-min-h4: 15px;
+$font-max-h4: 20px;
+//labeltext
+$font-min-lt: 12px;
+$font-max-lt: 18px;
+
+//button
+$font-min-b: 13px;
+$font-max-b: 16px;
+
+@mixin responsive-font($min, $max: false, $responsive: 3vw, $fallback: false) {
+  $responsive-unitless: $responsive / ($responsive - $responsive + 1);
+  $dimension: if(unit($responsive) == "vh", "height", "width");
+  $min-breakpoint: $min / $responsive-unitless * 100;
+
+  @media (max-#{$dimension}: #{$min-breakpoint}) {
+    font-size: $min;
+  }
+
+  @if $max {
+    $max-breakpoint: $max / $responsive-unitless * 100;
+
+    @media (min-#{$dimension}: #{$max-breakpoint}) {
+      font-size: $max;
+    }
+  }
+
+  @if $fallback {
+    font-size: $fallback;
+  }
+
+  font-size: $responsive;
+}

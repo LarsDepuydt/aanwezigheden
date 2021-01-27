@@ -1,0 +1,28 @@
+@import "./shared/scss/fontSize";
+
+body {
+  margin: 0;
+  text-align: center;
+  font-size: 17px;
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+}
+
+p {
+  max-width: 700px;
+  @include responsive-font($font-min-p, $font-max-p);
+}
+
+h2 {
+  @include responsive-font($font-min-h2, $font-max-h2);
+}
+
+h3 {
+  @include responsive-font($font-min-h3, $font-max-h3);
+}
+
+h4 {
+  @include responsive-font($font-min-h4, $font-max-h4);
+}
