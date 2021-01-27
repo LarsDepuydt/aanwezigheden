@@ -10,6 +10,23 @@
   outline: none;
 }
 
+@mixin jaNeeButton() {
+  width: 100%;
+  max-width: 250px;
+  margin: auto 0;
+  padding: 0.6em 0;
+}
+
+.positive {
+  @include jaNeeButton();
+  background-color: green;
+}
+
+.negative {
+  @include jaNeeButton();
+  background-color: red;
+}
+
 // .Button:disabled {
 //   color: $btnDisabledColor;
 //   background-color: $btnDisabledBackgroundColor;
