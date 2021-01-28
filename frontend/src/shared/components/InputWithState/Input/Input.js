@@ -4,34 +4,29 @@ const Input = (props) => {
   let input;
   if (props.type !== "select") {
     input = (
-      <>
-        <input
-          className={[
-            classes.Input,
-            !props.isValid && props.touched && classes.Invalid,
-          ].join(" ")}
-          value={props.value}
-          onChange={props.change}
-          type={props.type}
-          autoComplete={props.autoComplete}
-          autoFocus={props.autoFocus}
-          ref={props.childRef}
-        />
-      </>
+      <input
+        className={[
+          classes.Input,
+          !props.isValid && props.touched && classes.Invalid,
+        ].join(" ")}
+        value={props.value}
+        onChange={props.change}
+        type={props.type}
+        autoComplete={props.autoComplete}
+        autoFocus={props.autoFocus}
+        ref={props.childRef}
+      />
     );
   } else {
     const options = props.options.map((item) => (
-      <option
-        key={item.value}
-        value={item.value}
-        selected={item.value === props.value}
-      >
+      <option key={item.value} value={item.value}>
         {item.text}
       </option>
     ));
     input = (
       <select
         onChange={props.change}
+        value={props.value}
         className={[classes.Input, classes.select].join(" ")}
       >
         {options}

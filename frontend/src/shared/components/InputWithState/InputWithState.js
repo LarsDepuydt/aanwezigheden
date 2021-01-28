@@ -7,10 +7,13 @@ import Input from "./Input/Input";
 const inputReducer = (state, action) => {
   switch (action.type) {
     case "CHANGE":
-      console.log(action.value);
       return updateObject(state, {
         value: action.value,
         isValid: validate(action.value, action.validators),
+        touched: true,
+      });
+    case "TOUCHED":
+      return updateObject(state, {
         touched: true,
       });
     default:
@@ -26,10 +29,10 @@ const InputWithState = (props) => {
   });
 
   const { onInput } = props;
-  const { value, isValid, touched } = inputState;
+  const { value, isValid } = inputState;
   useEffect(() => {
-    onInput(value, isValid, touched);
-  }, [onInput, value, isValid, touched]);
+    onInput(value, isValid);
+  }, [onInput, value, isValid]);
 
   const inputChangeHandler = (event) => {
     dispatch({

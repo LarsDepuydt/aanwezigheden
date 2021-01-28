@@ -32,12 +32,6 @@
   background-color: red;
 }
 
-.Button:disabled {
-  color: $btnDisabledColor;
-  background-color: $btnDisabledBackgroundColor;
-  cursor: not-allowed;
-}
-
 // type: primary
 .primary:not([disabled]) {
   background-color: $btnPrimBackground;
@@ -69,3 +63,10 @@
 // .link:not([disabled]):hover {
 //   background-color: $btnLinkHoverColor;
 // }
+
+.Button:disabled,
+.disabledS {
+  color: $btnDisabledColor;
+  background-color: $btnDisabledBackgroundColor;
+  cursor: not-allowed;
+}
