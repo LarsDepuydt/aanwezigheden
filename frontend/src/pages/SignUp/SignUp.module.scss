@@ -1,0 +1,37 @@
+@import "../../shared/scss/values";
+
+.signupDiv {
+  margin: 10vmin auto 0 auto;
+  width: 100%;
+  max-width: 550px;
+  border-radius: $borderRadius;
+  padding: 20px;
+  @include box-shadow();
+
+  h2 {
+    margin-bottom: 7vmin;
+  }
+
+  .naamDiv {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 30px;
+
+    .halfDiv {
+      flex-basis: 220px;
+      flex-grow: 1;
+    }
+  }
+
+  button {
+    margin-top: 7vmin;
+  }
+}
+
+@media (max-width: 560px) {
+  .signupDiv {
+    width: 100%;
+    box-shadow: none;
+    padding: 10px;
+  }
+}

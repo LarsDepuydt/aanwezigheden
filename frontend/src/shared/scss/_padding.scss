@@ -1,0 +1,29 @@
+$padding-max: 45px;
+$padding-min: 10px;
+$padding-grow: 10vw;
+
+@mixin responsive-padding($min, $max: false, $responsive: 10vw, $fallback: false) {
+  $verhouding: 7 / 12;
+
+  $responsive-unitless: $responsive / ($responsive - $responsive + 1);
+  $dimension: if(unit($responsive) == "vh", "height", "width");
+  $min-breakpoint: $min / $responsive-unitless * 100;
+
+  @media (max-#{$dimension}: #{$min-breakpoint}) {
+    padding: ($min * $verhouding) $min;
+  }
+
+  @if $max {
+    $max-breakpoint: $max / $responsive-unitless * 100;
+
+    @media (min-#{$dimension}: #{$max-breakpoint}) {
+      padding: ($max * $verhouding) $max;
+    }
+  }
+
+  @if $fallback {
+    padding: $fallback;
+  }
+
+  padding: ($responsive * $verhouding) $responsive;
+}

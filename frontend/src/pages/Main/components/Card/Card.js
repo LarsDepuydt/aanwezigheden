@@ -5,7 +5,7 @@ import Status from "../Status/Status";
 import classes from "./Card.module.scss";
 
 const Card = (props) => {
-  const [value, setValue] = useState(3);
+  const [value, setValue] = useState(0);
 
   const statusChangeHandler = () => {
     value === 1 && setValue(2);
@@ -15,8 +15,8 @@ const Card = (props) => {
   return (
     <div className={classes.CardDiv}>
       <h3>Chiro om 14 uur</h3>
-      {value !== 3 && <Status value={value} clicked={statusChangeHandler} />}
-      {value === 3 && (
+      {value !== 0 && <Status value={value} clicked={statusChangeHandler} />}
+      {value === 0 && (
         <div className={classes.BtnDiv}>
           <Button btnType={"positive"} clicked={() => setValue(1)}>
             Aanwezig

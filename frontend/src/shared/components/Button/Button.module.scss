@@ -1,13 +1,18 @@
+@import "../../scss/sharedColors";
+@import "../../scss/fontSize";
+@import "../../scss/padding";
+@import "../../scss/values";
+
 .Button {
   margin: 1em auto;
-  padding: 1em 2em;
-  font-size: 1.3em;
   font-weight: 700;
   border: none;
-  border-radius: 5px;
+  border-radius: $borderRadius;
   letter-spacing: 0.4px;
   cursor: pointer;
   outline: none;
+  @include responsive-font($font-min-b, $font-max-b, $font-grow-b);
+  @include responsive-padding($padding-min, $padding-max, $padding-grow);
 }
 
 @mixin jaNeeButton() {
@@ -27,22 +32,22 @@
   background-color: red;
 }
 
-// .Button:disabled {
-//   color: $btnDisabledColor;
-//   background-color: $btnDisabledBackgroundColor;
-//   cursor: not-allowed;
-// }
+.Button:disabled {
+  color: $btnDisabledColor;
+  background-color: $btnDisabledBackgroundColor;
+  cursor: not-allowed;
+}
 
-// // type: primary
-// .primary:not([disabled]) {
-//   background-color: $btnPrimColor;
-//   color: white;
-// }
+// type: primary
+.primary:not([disabled]) {
+  background-color: $btnPrimBackground;
+  color: $btnPrimColor;
+}
 
-// .primary:not([disabled]):focus,
-// .primary:not([disabled]):hover {
-//   background-color: $btnPrimHoverColor;
-// }
+.primary:not([disabled]):focus,
+.primary:not([disabled]):hover {
+  background-color: $btnPrimHoverBackground;
+}
 
 // // type: secondary
 // .secondary:not([disabled]) {
@@ -64,10 +69,3 @@
 // .link:not([disabled]):hover {
 //   background-color: $btnLinkHoverColor;
 // }
-
-@media (max-width: 280px) {
-  .Button {
-    padding: 1em 10vw;
-    font-size: 1em;
-  }
-}

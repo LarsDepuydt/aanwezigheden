@@ -3,8 +3,9 @@
 $font-min-p: 11px;
 $font-max-p: 15px;
 // h2
-$font-min-h2: 20px;
+$font-min-h2: 25px;
 $font-max-h2: 40px;
+$font-grow-h2: 10vw;
 //h3
 $font-min-h3: 20px;
 $font-max-h3: 30px;
@@ -12,12 +13,18 @@ $font-max-h3: 30px;
 $font-min-h4: 15px;
 $font-max-h4: 20px;
 //labeltext
-$font-min-label: 15px;
-$font-max-label: 22px;
+$font-min-label: 14px;
+$font-max-label: 18px;
+$font-grow-label: 6vw;
 
+//input
+$font-min-input: 16px;
+$font-max-input: 20px;
+$font-grow-input: 6vw;
 //button
-$font-min-b: 13px;
-$font-max-b: 16px;
+$font-min-b: 14px;
+$font-max-b: 20px;
+$font-grow-b: 8vw;
 
 @mixin responsive-font($min, $max: false, $responsive: 3vw, $fallback: false) {
   $responsive-unitless: $responsive / ($responsive - $responsive + 1);
