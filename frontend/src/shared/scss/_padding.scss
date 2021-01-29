@@ -7,7 +7,7 @@ $padding-min-link: 10px;
 $padding-grow-link: 10vw;
 
 @mixin responsive-padding($min, $max: false, $responsive: 10vw, $fallback: false) {
-  $verhouding: 7 / 12;
+  $verhouding: 6 / 12;
 
   $responsive-unitless: $responsive / ($responsive - $responsive + 1);
   $dimension: if(unit($responsive) == "vh", "height", "width");

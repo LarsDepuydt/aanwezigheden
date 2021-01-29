@@ -4,6 +4,7 @@ import {
   VALIDATOR_MINLENGTH,
 } from "../../shared/util/validators";
 import { updateObject } from "../../shared/util/utility";
+import { useHistory } from "react-router-dom";
 import Input from "../../shared/components/InputWithState/InputWithState";
 import Button from "../../shared/components/Button/Button";
 import yearOptions from "./chooseOptions/chooseOptions";
@@ -27,7 +28,7 @@ const signinReducer = (state, action) => {
   }
 };
 
-const SignUp = () => {
+const SignUp = (props) => {
   const [signinInfo, dispatch] = useReducer(signinReducer, {
     voornaam: { value: "", isValid: false },
     achternaam: { value: "", isValid: false },
@@ -35,8 +36,8 @@ const SignUp = () => {
     wachtwoord: { value: "", isValid: false },
     isValid: false,
   });
-  const [signIn, setSignIn] = useState(true);
   const [touchedState, setTouchedState] = useState(false);
+  const { signIn } = props;
 
   const stateChangeHandler = (stateName, value, isValid) => {
     dispatch({
@@ -54,9 +55,15 @@ const SignUp = () => {
     stateChangeHandler("geboortejaar", value, isValid);
   }, []);
 
+  const history = useHistory();
+
   const changeSignInHandler = (event) => {
     event.preventDefault();
-    setSignIn(!signIn);
+    if (signIn) {
+      history.push("/registreren");
+    } else {
+      history.push("/inloggen");
+    }
   };
 
   const ref1 = useRef(null);

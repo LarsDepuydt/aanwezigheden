@@ -19,6 +19,10 @@ p {
   @include responsive-font($font-min-p, $font-max-p);
 }
 
+h1 {
+  display: none;
+}
+
 h2 {
   @include responsive-font($font-min-h2, $font-max-h2, $font-grow-h2);
 }
