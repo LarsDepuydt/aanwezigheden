@@ -9,5 +9,8 @@ $btnPrimBackground: $blue;
 $btnPrimColor: white;
 $btnPrimHoverBackground: $blueHover;
 
+$btnLinkColor: white;
+$btnLinkHoverColor: darken(white, 5%);
+
 $btnDisabledColor: darken($lightGrey, 30%);
 $btnDisabledBackgroundColor: $lightGrey;

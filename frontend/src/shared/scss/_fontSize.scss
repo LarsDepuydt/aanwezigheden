@@ -21,10 +21,15 @@ $font-grow-label: 6vw;
 $font-min-input: 16px;
 $font-max-input: 20px;
 $font-grow-input: 6vw;
+
 //button
 $font-min-b: 14px;
 $font-max-b: 20px;
 $font-grow-b: 8vw;
+//button link
+$font-min-bl: 12px;
+$font-max-bl: 16px;
+$font-grow-bl: 5vw;
 
 @mixin responsive-font($min, $max: false, $responsive: 3vw, $fallback: false) {
   $responsive-unitless: $responsive / ($responsive - $responsive + 1);

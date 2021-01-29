@@ -6,20 +6,9 @@ import {
 import { updateObject } from "../../shared/util/utility";
 import Input from "../../shared/components/InputWithState/InputWithState";
 import Button from "../../shared/components/Button/Button";
+import yearOptions from "./chooseOptions/chooseOptions";
 
-import classes from "./SignUp.module.scss";
-
-const date = new Date();
-const currentYear = date.getFullYear();
-let yearOptions = [];
-for (let i = 6; i < 18; i++) {
-  const afdelingen = ["sloeber", "speelclub", "rakwi", "tito", "keti", "aspi"];
-  const afdeling = afdelingen[Math.floor(i / 2 - 3)];
-  yearOptions.push({
-    value: currentYear - i,
-    text: currentYear - i + " - " + afdeling,
-  });
-}
+import classes from "./SignInUp.module.scss";
 
 const signinReducer = (state, action) => {
   switch (action.type) {
@@ -46,6 +35,7 @@ const SignUp = () => {
     wachtwoord: { value: "", isValid: false },
     isValid: false,
   });
+  const [signIn, setSignIn] = useState(true);
   const [touchedState, setTouchedState] = useState(false);
 
   const stateChangeHandler = (stateName, value, isValid) => {
@@ -58,6 +48,15 @@ const SignUp = () => {
     dispatch({
       type: "CHECK_VALID",
     });
+  };
+
+  const geboortejaarChangeHandler = useCallback((value, isValid) => {
+    stateChangeHandler("geboortejaar", value, isValid);
+  }, []);
+
+  const changeSignInHandler = (event) => {
+    event.preventDefault();
+    setSignIn(!signIn);
   };
 
   const ref1 = useRef(null);
@@ -82,7 +81,7 @@ const SignUp = () => {
 
   return (
     <form className={classes.signupDiv}>
-      <h2>Maak je account</h2>
+      <h2>{signIn ? "Log in" : "Maak je account"}</h2>
       <div className={classes.naamDiv}>
         <div className={classes.halfDiv}>
           <Input
@@ -120,20 +119,18 @@ const SignUp = () => {
           </Input>
         </div>
       </div>
-      <Input
-        type={"select"}
-        onInput={useCallback(
-          (value, isValid) =>
-            stateChangeHandler("geboortejaar", value, isValid),
-          []
-        )}
-        validators={[]}
-        options={yearOptions}
-        initialValue={signinInfo.geboortejaar.value}
-        touched
-      >
-        Geboortejaar
-      </Input>
+      {!signIn && (
+        <Input
+          type={"select"}
+          onInput={geboortejaarChangeHandler}
+          validators={[]}
+          options={yearOptions}
+          initialValue={signinInfo.geboortejaar.value}
+          touched
+        >
+          Geboortejaar
+        </Input>
+      )}
       <Input
         type={"password"}
         onInput={useCallback(
@@ -152,7 +149,10 @@ const SignUp = () => {
         btnType={"primary"}
         disabledS={!signinInfo.isValid}
       >
-        Account aanmaken
+        {signIn ? "Inloggen" : "Registreren"}
+      </Button>
+      <Button clicked={changeSignInHandler} btnType={"link"}>
+        {signIn ? "Nog geen account?" : "Al een account?"}
       </Button>
     </form>
   );

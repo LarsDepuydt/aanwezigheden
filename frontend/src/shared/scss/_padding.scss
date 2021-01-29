@@ -2,6 +2,10 @@ $padding-max: 45px;
 $padding-min: 10px;
 $padding-grow: 10vw;
 
+$padding-max-link: 30px;
+$padding-min-link: 10px;
+$padding-grow-link: 10vw;
+
 @mixin responsive-padding($min, $max: false, $responsive: 10vw, $fallback: false) {
   $verhouding: 7 / 12;
 
