@@ -1,11 +1,13 @@
-import { useState } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
+import { AuthContext } from "./shared/hooks/auth-context";
+import { BrowserRouter as Router } from "react-router-dom";
+import { useAuth } from "./shared/hooks/auth-hook";
 
 import Main from "./pages/Main/Main";
 import SignInUp from "./pages/SignInUp/SignInUp";
 
 function App() {
-  const [login, setLogin] = useState(false);
+  const { token, login, logout, userId } = useAuth();
 
   let routes = (
     <Switch>
@@ -19,21 +21,35 @@ function App() {
     </Switch>
   );
 
-  if (login) {
+  if (token) {
     routes = (
       <Switch>
-        <Main />
+        <Route path="/">
+          <Main />
+        </Route>
       </Switch>
     );
   }
 
   return (
-    <>
-      <h1>Aanwezigheden Chiro Skippy</h1>
-      <header></header>
-      <main>{routes}</main>
-      <footer></footer>
-    </>
+    <AuthContext.Provider
+      value={{
+        isAuth: !!token,
+        userId,
+        jwt: token,
+        csrf: "",
+        login,
+        logout,
+      }}
+    >
+      <Router>
+        <header>
+          <h1>Aanwezigheden Chiro Skippy</h1>
+        </header>
+        <main>{routes}</main>
+        <footer></footer>
+      </Router>
+    </AuthContext.Provider>
   );
 }
 
