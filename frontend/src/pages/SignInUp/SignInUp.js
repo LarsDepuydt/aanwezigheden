@@ -173,7 +173,7 @@ const SignUp = (props) => {
               childRef={ref2}
               {...(touchedState && { touched: true })}
             >
-              Naam lid
+              Achternaam lid
             </Input>
           </div>
         </div>

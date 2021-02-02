@@ -6,9 +6,12 @@ $padding-max-link: 30px;
 $padding-min-link: 10px;
 $padding-grow-link: 10vw;
 
-@mixin responsive-padding($min, $max: false, $responsive: 10vw, $fallback: false) {
-  $verhouding: 6 / 12;
+$padding-max-janee: 40px;
+$padding-min-janee: 10px;
+$padding-grow-janee: 10vw;
+$verhouding-janee: 4/12;
 
+@mixin responsive-padding($min, $max: false, $responsive: 10vw, $verhouding: 6/12, $fallback: false) {
   $responsive-unitless: $responsive / ($responsive - $responsive + 1);
   $dimension: if(unit($responsive) == "vh", "height", "width");
   $min-breakpoint: $min / $responsive-unitless * 100;

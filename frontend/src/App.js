@@ -9,24 +9,26 @@ import SignInUp from "./pages/SignInUp/SignInUp";
 function App() {
   const { token, login, logout, userId } = useAuth();
 
-  let routes = (
-    <Switch>
-      <Route path="/inloggen">
-        <SignInUp signIn={true} />
-      </Route>
-      <Route path="/registreren">
-        <SignInUp signIn={false} />
-      </Route>
-      <Redirect to="/inloggen" />
-    </Switch>
-  );
-
+  let routes;
   if (token) {
     routes = (
       <Switch>
-        <Route path="/">
+        <Route exact path="/">
           <Main />
         </Route>
+        <Redirect to="/" />
+      </Switch>
+    );
+  } else {
+    routes = (
+      <Switch>
+        <Route path="/inloggen">
+          <SignInUp signIn={true} />
+        </Route>
+        <Route path="/registreren">
+          <SignInUp signIn={false} />
+        </Route>
+        <Redirect to="/inloggen" />
       </Switch>
     );
   }
@@ -36,7 +38,7 @@ function App() {
       value={{
         isAuth: !!token,
         userId,
-        jwt: token,
+        token: token,
         csrf: "",
         login,
         logout,

@@ -3,7 +3,7 @@ import React from "react";
 export const AuthContext = React.createContext({
   isAuth: false,
   userId: "",
-  jwt: "",
+  token: "",
   csrf: "",
   login: () => {},
   logout: () => {},

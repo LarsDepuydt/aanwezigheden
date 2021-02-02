@@ -14,7 +14,7 @@ const Card = (props) => {
 
   return (
     <div className={classes.CardDiv}>
-      <h3>Chiro om 14 uur</h3>
+      <h4>{props.text}</h4>
       {value !== 0 && <Status value={value} clicked={statusChangeHandler} />}
       {value === 0 && (
         <div className={classes.BtnDiv}>
