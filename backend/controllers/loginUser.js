@@ -15,7 +15,7 @@ const login = async (req, res, next) => {
 
   let existingUser;
   try {
-    existingUser = await User.findOne({ username });
+    existingUser = await User.findOne({ username: username.toLowerCase() });
   } catch (err) {
     const error = new HttpError(
       "Something went wrong while searching for user",

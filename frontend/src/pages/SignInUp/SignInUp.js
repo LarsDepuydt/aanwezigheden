@@ -85,7 +85,7 @@ const SignUp = (props) => {
         try {
           const responseData = await sendRequest(
             "http://localhost:5000/api/users/login",
-            "POST",
+            "PATCH",
             JSON.stringify({
               username,
               password: signinInfo.password.value,

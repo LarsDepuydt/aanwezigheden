@@ -60,8 +60,8 @@ app.get("/form", csrfProtection, (req, res) => {
 
 app.use("/api/users", /*parseForm, csrfProtection,*/ userRoutes);
 
-app.use(checkAuth);
-//app.use("/api/aanwezigheden", aanwezighedenRoutes);
+// app.use(checkAuth);
+// app.use("/api/aanwezigheden", aanwezighedenRoutes);
 
 app.use((req, res, next) => {
   const error = new HttpError("Could not find this route.", 404);

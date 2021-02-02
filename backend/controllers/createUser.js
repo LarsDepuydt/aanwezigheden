@@ -10,11 +10,11 @@ const createUser = async (req, res, next) => {
   if (checkInput(req, next) !== 1) {
     return next();
   }
-  const { username, password } = req.body;
+  const { username, password, geboortejaar } = req.body;
 
   let existingUser;
   try {
-    existingUser = await User.findOne({ username });
+    existingUser = await User.findOne({ username: username.toLowerCase() });
   } catch (err) {
     const error = new HttpError(
       "Failed to while searching for an existing user",
@@ -37,8 +37,9 @@ const createUser = async (req, res, next) => {
     return next(error);
   }
   const createdUser = new User({
-    username,
+    username: username.toLowerCase(),
     password: hashedPassword,
+    geboortejaar,
   });
   try {
     await createdUser.save();
