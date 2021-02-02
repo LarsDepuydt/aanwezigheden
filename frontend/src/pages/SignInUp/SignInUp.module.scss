@@ -1,4 +1,5 @@
 @import "../../shared/scss/values";
+@import "../../shared/scss/mixins";
 
 .signupDiv {
   margin: 10vmin auto 0 auto;
@@ -25,6 +26,10 @@
 
   button {
     margin-top: 7vmin;
+  }
+
+  .error {
+    @include errorMessage();
   }
 }
 

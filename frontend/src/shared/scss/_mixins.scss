@@ -1,0 +1,12 @@
+@import "./fontSize";
+
+@mixin box-shadow() {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+@mixin errorMessage() {
+  color: red;
+  font-weight: 700;
+
+  @include responsive-font($font-min-p, $font-max-p);
+}

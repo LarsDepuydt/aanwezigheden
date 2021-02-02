@@ -1,11 +1,6 @@
 @import "../../../scss/fontSize";
 @import "../../../scss/values";
-
-@mixin errorMessage() {
-  color: red;
-  font-size: 0.9em;
-  font-weight: 700;
-}
+@import "../../../scss/mixins";
 
 .Label {
   display: block;

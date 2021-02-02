@@ -11,6 +11,7 @@ import { useHttpClient } from "../../shared/hooks/http-hook";
 import Input from "../../shared/components/InputWithState/InputWithState";
 import Button from "../../shared/components/Button/Button";
 import yearOptions from "./chooseOptions/chooseOptions";
+import LoadingSpinner from "../../shared/components/LoadingSpinnerOverlay/LoadingSpinnerOverlay";
 
 import classes from "./SignInUp.module.scss";
 
@@ -54,10 +55,12 @@ const SignUp = (props) => {
     dispatch({
       type: "CHECK_VALID",
     });
+    clearError();
   };
 
   const geboortejaarChangeHandler = useCallback((value, isValid) => {
     stateChangeHandler("geboortejaar", value, isValid);
+    // eslint-disable-next-line
   }, []);
 
   const history = useHistory();
@@ -131,81 +134,88 @@ const SignUp = (props) => {
   };
 
   return (
-    <form className={classes.signupDiv}>
-      <h2>{signIn ? "Log in" : "Maak je account"}</h2>
-      <div className={classes.naamDiv}>
-        <div className={classes.halfDiv}>
-          <Input
-            type={"text"}
-            onInput={useCallback(
-              (value, isValid) =>
-                stateChangeHandler("voornaam", value, isValid),
-              []
-            )}
-            validators={[VALIDATOR_REQUIRE()]}
-            errorMessage={"Geef een voornaam in"}
-            autoFocus
-            half
-            childRef={ref1}
-            {...(touchedState && { touched: true })}
-          >
-            Voornaam lid
-          </Input>
+    <>
+      {isLoading && <LoadingSpinner />}
+      <form className={classes.signupDiv}>
+        <h2>{signIn ? "Log in" : "Maak je account"}</h2>
+        <div className={classes.naamDiv}>
+          <div className={classes.halfDiv}>
+            <Input
+              type={"text"}
+              onInput={useCallback(
+                (value, isValid) =>
+                  stateChangeHandler("voornaam", value, isValid),
+                // eslint-disable-next-line
+                []
+              )}
+              validators={[VALIDATOR_REQUIRE()]}
+              errorMessage={"Geef een voornaam in"}
+              autoFocus
+              half
+              childRef={ref1}
+              {...(touchedState && { touched: true })}
+            >
+              Voornaam lid
+            </Input>
+          </div>
+          <div className={classes.halfDiv}>
+            <Input
+              type={"text"}
+              onInput={useCallback(
+                (value, isValid) =>
+                  stateChangeHandler("achternaam", value, isValid),
+                // eslint-disable-next-line
+                []
+              )}
+              validators={[VALIDATOR_REQUIRE()]}
+              errorMessage={"Geef een achternaam in"}
+              half
+              childRef={ref2}
+              {...(touchedState && { touched: true })}
+            >
+              Naam lid
+            </Input>
+          </div>
         </div>
-        <div className={classes.halfDiv}>
+        {!signIn && (
           <Input
-            type={"text"}
-            onInput={useCallback(
-              (value, isValid) =>
-                stateChangeHandler("achternaam", value, isValid),
-              []
-            )}
-            validators={[VALIDATOR_REQUIRE()]}
-            errorMessage={"Geef een achternaam in"}
-            half
-            childRef={ref2}
-            {...(touchedState && { touched: true })}
+            type={"select"}
+            onInput={geboortejaarChangeHandler}
+            validators={[]}
+            options={yearOptions}
+            initialValue={signinInfo.geboortejaar.value}
+            touched
           >
-            Naam lid
+            Geboortejaar
           </Input>
-        </div>
-      </div>
-      {!signIn && (
-        <Input
-          type={"select"}
-          onInput={geboortejaarChangeHandler}
-          validators={[]}
-          options={yearOptions}
-          initialValue={signinInfo.geboortejaar.value}
-          touched
-        >
-          Geboortejaar
-        </Input>
-      )}
-      <Input
-        type={"password"}
-        onInput={useCallback(
-          (value, isValid) => stateChangeHandler("password", value, isValid),
-          []
         )}
-        validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(6)]}
-        errorMessage={"Kies een wachtwoord van minstens 6 tekens"}
-        {...(touchedState && { touched: true })}
-        childRef={ref3}
-      >
-        Wachtwoord
-      </Input>
-      <Button
-        clicked={buttonClickedHandler}
-        btnType={"primary"}
-        disabledS={!signinInfo.isValid}
-      >
-        {signIn ? "Inloggen" : "Registreren"}
-      </Button>
-      <Button clicked={changeSignInHandler} btnType={"link"}>
-        {signIn ? "Nog geen account?" : "Al een account?"}
-      </Button>
-    </form>
+        <Input
+          type={"password"}
+          onInput={useCallback(
+            (value, isValid) => stateChangeHandler("password", value, isValid),
+            // eslint-disable-next-line
+            []
+          )}
+          validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(6)]}
+          errorMessage={"Kies een wachtwoord van minstens 6 tekens"}
+          {...(touchedState && { touched: true })}
+          childRef={ref3}
+        >
+          Wachtwoord
+        </Input>
+        <Button
+          clicked={buttonClickedHandler}
+          btnType={"primary"}
+          disabledS={!signinInfo.isValid}
+        >
+          {signIn ? "Inloggen" : "Registreren"}
+        </Button>
+        {error !== "" && <p className={classes.error}>{error}</p>}
+        <Button clicked={changeSignInHandler} btnType={"link"}>
+          {signIn ? "Nog geen account?" : "Al een account?"}
+        </Button>
+      </form>
+    </>
   );
 };
 
