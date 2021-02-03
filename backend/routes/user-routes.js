@@ -1,8 +1,12 @@
 const express = require("express");
 const { check } = require("express-validator");
 
+const checkAuth = require("../middleware/checkAuth");
+const checkForId = require("../util/checkObjectIdArray");
+
 const createUser = require("../controllers/user/createUser");
 const loginUser = require("../controllers/user/loginUser");
+const updateAanwezigheid = require("../controllers/user/updateAanwezigheid");
 
 const router = express.Router();
 
@@ -24,6 +28,24 @@ router.patch(
     check("password").notEmpty().isString().isLength({ min: 6 }),
   ],
   loginUser
+);
+
+router.use(checkAuth);
+
+router.patch(
+  "/",
+  [
+    check("aanwezig")
+      .optional()
+      .custom((val) => checkForId(val)),
+    check("afwezig")
+      .optional()
+      .custom((val) => checkForId(val)),
+    check("onbepaald")
+      .optional()
+      .custom((val) => checkForId(val)),
+  ],
+  updateAanwezigheid
 );
 
 module.exports = router;
