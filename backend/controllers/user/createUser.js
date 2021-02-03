@@ -1,10 +1,12 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 
 const checkInput = require("../../util/checkInput");
 
 const HttpError = require("../../models/http-error");
 const User = require("../../models/user");
+const Event = require("../../models/event");
 
 const createUser = async (req, res, next) => {
   if (checkInput(req, next) !== 1) {
@@ -37,19 +39,36 @@ const createUser = async (req, res, next) => {
     );
     return next(error);
   }
+
   const createdUser = new User({
     username: username.toLowerCase(),
     password: hashedPassword,
     geboortejaar,
+    onbepaald: [],
   });
+
+  let events;
   try {
-    await createdUser.save();
+    events = await Event.find({}, "onbepaald");
   } catch (err) {
-    const error = new HttpError(
-      "Something went wrong, could not create user",
-      500
-    );
+    const error = new HttpError("Finding events failed", 500);
     return next(error);
+  }
+
+  try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    for (const event of events) {
+      event.onbepaald.push(createdUser._id);
+      createdUser.onbepaald.push(event._id);
+      await event.save({ session: sess });
+    }
+    await createdUser.save({ session: sess });
+    await sess.commitTransaction();
+  } catch (err) {
+    console.log(err);
+    const error = new HttpError("Saving events failed", 500);
+    return next(err);
   }
 
   let token;

@@ -7,9 +7,9 @@ const user = new Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true, minlength: 6 },
   geboortejaar: { type: Number, required: true, length: 4 },
-  aanwezig: [{ type: mongoose.Types.ObjectId, ref: "Event" }],
-  afwezig: [{ type: mongoose.Types.ObjectId, ref: "Event" }],
-  onbepaald: [{ type: mongoose.Types.ObjectId, ref: "Event" }],
+  aanwezig: [{ type: mongoose.Types.ObjectId, ref: "Event", default: [] }],
+  afwezig: [{ type: mongoose.Types.ObjectId, ref: "Event", default: [] }],
+  onbepaald: [{ type: mongoose.Types.ObjectId, ref: "Event", default: [] }],
 });
 
 user.plugin(uniqueValidator, { message: "Error in user schema" });
