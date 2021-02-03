@@ -1,10 +1,10 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const checkInput = require("../util/checkInput");
+const checkInput = require("../../util/checkInput");
 
-const User = require("../models/user");
-const HttpError = require("../models/http-error");
+const User = require("../../models/user");
+const HttpError = require("../../models/http-error");
 
 const login = async (req, res, next) => {
   if (checkInput(req, next) !== 1) {

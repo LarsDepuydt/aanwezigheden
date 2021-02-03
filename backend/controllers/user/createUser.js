@@ -1,10 +1,10 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const checkInput = require("../util/checkInput");
+const checkInput = require("../../util/checkInput");
 
-const HttpError = require("../models/http-error");
-const User = require("../models/user");
+const HttpError = require("../../models/http-error");
+const User = require("../../models/user");
 
 const createUser = async (req, res, next) => {
   if (checkInput(req, next) !== 1) {
@@ -26,6 +26,7 @@ const createUser = async (req, res, next) => {
     const error = new HttpError("User alreading exists", 422);
     return next(error);
   }
+
   let hashedPassword;
   try {
     hashedPassword = await bcrypt.hash(password, 12);

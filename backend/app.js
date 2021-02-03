@@ -12,6 +12,7 @@ const csrf = require("csurf");
 const HttpError = require("./models/http-error");
 
 const userRoutes = require("./routes/user-routes");
+const eventRoutes = require("./routes/event-routes");
 const checkAuth = require("./middleware/checkAuth");
 
 // #################################
@@ -60,8 +61,8 @@ app.get("/form", csrfProtection, (req, res) => {
 
 app.use("/api/users", /*parseForm, csrfProtection,*/ userRoutes);
 
-// app.use(checkAuth);
-// app.use("/api/aanwezigheden", aanwezighedenRoutes);
+app.use(checkAuth);
+app.use("/api/event", eventRoutes);
 
 app.use((req, res, next) => {
   const error = new HttpError("Could not find this route.", 404);
