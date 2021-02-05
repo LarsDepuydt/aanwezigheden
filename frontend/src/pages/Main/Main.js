@@ -1,33 +1,66 @@
-import Month from "./components/Month/Month";
+import { useState, useEffect, useContext } from "react";
+import { useHttpClient } from "../../shared/hooks/http-hook";
+import { AuthContext } from "../../shared/hooks/auth-context";
+import { sortArrayByDate } from "../../shared/util/sortArrayByDate";
 
-const info = [
-  new Date(2021, 0, 31, 14),
-  new Date(2021, 1, 7, 13),
-  new Date(2021, 1, 14, 14),
-];
-
-let infoMonth = [
-  { month: 0, dates: [] },
-  { month: 1, dates: [] },
-  { month: 2, dates: [] },
-  { month: 3, dates: [] },
-  { month: 4, dates: [] },
-  { month: 5, dates: [] },
-  { month: 6, dates: [] },
-  { month: 7, dates: [] },
-  { month: 8, dates: [] },
-  { month: 9, dates: [] },
-  { month: 10, dates: [] },
-  { month: 11, dates: [] },
-];
-info.map((item) => infoMonth[item.getMonth()].dates.push(item));
-console.log(infoMonth);
+import Year from "./components/Year/Year";
 
 const Main = () => {
-  const months = infoMonth.map((item) => (
-    <Month key={item.month} dates={item.dates} month={item.month} />
-  ));
-  return <>{months}</>;
+  const [events, setEvents] = useState([]);
+  const auth = useContext(AuthContext);
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+
+  const { token } = auth;
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const responseData = await sendRequest(
+          `http://localhost:5000/api/event`,
+          "GET",
+          null,
+          {
+            Authorization: "Bearer " + token,
+          }
+        );
+
+        const eventsArray = [];
+        if (responseData.events.aanwezig.length !== 0) {
+          for (const event of responseData.events.aanwezig) {
+            event.state = 1;
+            eventsArray.push(event);
+          }
+        }
+        if (responseData.events.afwezig.length !== 0) {
+          for (const event of responseData.events.afwezig) {
+            event.state = 0;
+            eventsArray.push(event);
+          }
+        }
+        if (responseData.events.onbepaald.length !== 0) {
+          for (const event of responseData.events.onbepaald) {
+            event.state = 2;
+            eventsArray.push(event);
+          }
+        }
+
+        const eventsSorted = sortArrayByDate(eventsArray);
+        setEvents(eventsSorted);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchEvents();
+  }, [sendRequest, token]);
+
+  let years;
+  if (events.length !== 0) {
+    const keys = Object.keys(events);
+    years = keys.map((year, index) => (
+      <Year key={year} year={year} months={events[year]} />
+    ));
+  }
+
+  return <>{years && years}</>;
 };
 
 export default Main;

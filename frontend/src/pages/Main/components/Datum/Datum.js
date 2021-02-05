@@ -26,14 +26,19 @@ const getDay = (date) => {
 };
 
 const Datum = (props) => {
-  const { date } = props;
+  const { event } = props;
 
-  const text = "Chiro om " + date.getHours() + " uur";
+  const text =
+    event.name +
+    " om " +
+    event.date.getHours() +
+    " uur " +
+    event.date.getMinutes();
   return (
     <div className={classes.DatumDiv}>
       <div>
-        <p className={classes.day}>{getDay(date)}</p>
-        <p className={classes.date}>{date.getDate()}</p>
+        <p className={classes.day}>{getDay(event.date)}</p>
+        <p className={classes.date}>{event.date.getDate()}</p>
       </div>
       <Card text={text} />
     </div>

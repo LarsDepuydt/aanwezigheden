@@ -66,9 +66,8 @@ const createUser = async (req, res, next) => {
     await createdUser.save({ session: sess });
     await sess.commitTransaction();
   } catch (err) {
-    console.log(err);
     const error = new HttpError("Saving events failed", 500);
-    return next(err);
+    return next(error);
   }
 
   let token;

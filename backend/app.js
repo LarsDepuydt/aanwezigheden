@@ -8,6 +8,7 @@ const mongoSanitize = require("express-mongo-sanitize");
 const helmet = require("helmet");
 const hpp = require("hpp");
 const csrf = require("csurf");
+const cors = require("cors");
 
 const HttpError = require("./models/http-error");
 
@@ -26,22 +27,20 @@ const app = express();
 // sets security headers
 app.use(helmet());
 
-// protect from database injection
-app.use(mongoSanitize());
-
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
-
-  next();
-});
+// enables cors
+const corsOptions = {
+  origin: process.env.FRONTEND_URL,
+  methods: "GET, POST, PATCH, DELETE",
+  allowHeaders:
+    "Access-Control-Allow-Origin, Origin, X-Requested-With, Content-Type, Accept, Authorization",
+};
+app.use(cors(corsOptions));
 
 // parse the data
 app.use(bodyParser.json());
+
+// protect from database injection
+app.use(mongoSanitize());
 
 // protect against parameter pollution attack
 app.use(hpp());
