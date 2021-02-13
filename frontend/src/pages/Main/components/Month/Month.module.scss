@@ -1,7 +1,7 @@
 @import "../../../../shared/scss/values";
 
 .MonthDiv {
-  width: calc(#{$cardWith} + 100px);
+  max-width: calc(#{$cardWith} + 60px);
   margin: 5vh auto 0 auto;
 
   .h3 {

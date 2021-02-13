@@ -7,19 +7,19 @@ const getDay = (date) => {
 
   switch (day) {
     case 0:
-      return "zondag";
+      return "zo";
     case 1:
-      return "maandag";
+      return "ma";
     case 2:
-      return "dinsdag";
+      return "di";
     case 3:
-      return "woensdag";
+      return "woe";
     case 4:
-      return "donderdag";
+      return "do";
     case 5:
-      return "vrijdag";
+      return "vr";
     case 6:
-      return "zaterdag";
+      return "za";
     default:
       return "";
   }

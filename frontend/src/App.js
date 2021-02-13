@@ -3,9 +3,10 @@ import { AuthContext } from "./shared/hooks/auth-context";
 import { BrowserRouter as Router } from "react-router-dom";
 import { useAuth } from "./shared/hooks/auth-hook";
 
+import NieuweVereniging from "./pages/NieuweVereniging/NieuweVeringing";
+import SignInUp from "./pages/SignInUp/SignInUp";
 import Main from "./pages/Main/Main";
 import Navigation from "./shared/components/Navigation/Navigation";
-import SignInUp from "./pages/SignInUp/SignInUp";
 
 function App() {
   const { token, login, logout, userId } = useAuth();
@@ -28,6 +29,9 @@ function App() {
         </Route>
         <Route path="/registreren">
           <SignInUp signIn={false} />
+        </Route>
+        <Route path="/nieuwe-vereniging">
+          <NieuweVereniging />
         </Route>
         <Redirect to="/inloggen" />
       </Switch>

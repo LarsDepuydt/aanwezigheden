@@ -11,21 +11,31 @@ const updateAanwezigheid = require("../controllers/user/updateAanwezigheid");
 const router = express.Router();
 
 router.post(
-  "/signup",
+  "/:vid/signup",
   [
     check("username").notEmpty().trim().escape().isString(),
-    check("password").notEmpty().isString().isLength({ min: 6 }),
-    check("geboortejaar").isNumeric().isLength({ min: 4, max: 4 }),
-    check("roleLeiding").notEmpty().isBoolean(),
+    check("password")
+      .notEmpty()
+      .trim()
+      .escape()
+      .isString()
+      .isLength({ min: 6 }),
+    check("geboortejaar").optional().isNumeric().isLength({ min: 4, max: 4 }),
+    check("admin").notEmpty().isBoolean(),
   ],
   createUser
 );
 
 router.patch(
-  "/login",
+  "/:vid/login",
   [
     check("username").notEmpty().trim().escape().isString(),
-    check("password").notEmpty().isString().isLength({ min: 6 }),
+    check("password")
+      .notEmpty()
+      .trim()
+      .escape()
+      .isString()
+      .isLength({ min: 6 }),
   ],
   loginUser
 );
@@ -33,7 +43,7 @@ router.patch(
 router.use(checkAuth);
 
 router.patch(
-  "/",
+  "/:vid",
   [
     check("aanwezig")
       .optional()

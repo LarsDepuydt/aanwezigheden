@@ -9,7 +9,7 @@ const deleteEvent = require("../controllers/event/deleteEvent");
 const router = express.Router();
 
 router.post(
-  "/",
+  "/:vid",
   [
     check("name").notEmpty().trim().escape().isString(),
     check("date").notEmpty().isISO8601(),
@@ -17,10 +17,10 @@ router.post(
   createEvent
 );
 
-router.get("/", getEvents);
+router.get("/:vid", getEvents);
 
 router.patch(
-  "/:id",
+  "/:vid/:id",
   [
     check("name").optional().trim().escape().isString(),
     check("date").optional().isISO8601(),
@@ -28,6 +28,6 @@ router.patch(
   updateEvent
 );
 
-router.delete("/:id", deleteEvent);
+router.delete("/:vid/:id", deleteEvent);
 
 module.exports = router;

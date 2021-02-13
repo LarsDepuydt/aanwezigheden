@@ -13,6 +13,7 @@ const cors = require("cors");
 const HttpError = require("./models/http-error");
 
 const userRoutes = require("./routes/user-routes");
+const verenigingRoutes = require("./routes/vereniging-routes");
 const eventRoutes = require("./routes/event-routes");
 const checkAuth = require("./middleware/checkAuth");
 
@@ -59,6 +60,7 @@ app.use(cookieParser());
 // #################################################################
 
 app.use("/api/users", /*parseForm, csrfProtection,*/ userRoutes);
+app.use("/api/vereniging", verenigingRoutes);
 
 app.use(checkAuth);
 app.use("/api/event", eventRoutes);

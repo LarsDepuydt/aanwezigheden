@@ -4,18 +4,16 @@ import {
   VALIDATOR_MINLENGTH,
 } from "../../shared/util/validators";
 import { updateObject } from "../../shared/util/utility";
-import { useHistory } from "react-router-dom";
 import { AuthContext } from "../../shared/hooks/auth-context";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 
 import Input from "../../shared/components/UI/InputWithState/InputWithState";
 import Button from "../../shared/components/UI/Button/Button";
-import yearOptions from "./chooseOptions/chooseOptions";
 import LoadingSpinner from "../../shared/components/HttpHandling/LoadingSpinnerOverlay/LoadingSpinnerOverlay";
 
 import classes from "./SignInUp.module.scss";
 
-const signinReducer = (state, action) => {
+const verenigingReducer = (state, action) => {
   switch (action.type) {
     case "CHECK_VALID":
       const isValid =
@@ -32,15 +30,14 @@ const signinReducer = (state, action) => {
   }
 };
 
-const SignUp = (props) => {
-  const [signinInfo, dispatch] = useReducer(signinReducer, {
+const NieuweVeringing = () => {
+  const [vereniginInfo, dispatch] = useReducer(verenigingReducer, {
+    naamVereniging: { value: "", isValid: false },
     voornaam: { value: "", isValid: false },
     achternaam: { value: "", isValid: false },
-    geboortejaar: { value: yearOptions[0].value, isValid: true },
     password: { value: "", isValid: false },
     isValid: false,
   });
-  const { signIn } = props;
   const [touchedState, setTouchedState] = useState(false);
   const auth = useContext(AuthContext);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -58,77 +55,44 @@ const SignUp = (props) => {
     clearError();
   };
 
-  const geboortejaarChangeHandler = useCallback((value, isValid) => {
-    stateChangeHandler("geboortejaar", value, isValid);
-    // eslint-disable-next-line
-  }, []);
-
-  const history = useHistory();
-
-  const changeSignInHandler = (event) => {
-    event.preventDefault();
-    if (signIn) {
-      history.push("/registreren");
-    } else {
-      history.push("/inloggen");
-    }
-  };
-
   const ref1 = useRef(null);
   const ref2 = useRef(null);
   const ref3 = useRef(null);
+  const ref4 = useRef(null);
 
   const buttonClickedHandler = async (event) => {
     event.preventDefault();
-    if (signinInfo.isValid) {
+    if (vereniginInfo.isValid) {
       const username =
-        signinInfo.voornaam.value + " " + signinInfo.achternaam.value;
+        vereniginInfo.voornaam.value + " " + vereniginInfo.achternaam.value;
 
-      if (signIn) {
-        try {
-          const responseData = await sendRequest(
-            "http://localhost:5000/api/users/login",
-            "PATCH",
-            JSON.stringify({
-              username,
-              password: signinInfo.password.value,
-            }),
-            {
-              "Content-Type": "application/json",
-            }
-          );
-          auth.login(responseData.userId, responseData.token);
-        } catch (err) {
-          console.log(err);
-        }
-      } else {
-        try {
-          const responseData = await sendRequest(
-            "http://localhost:5000/api/users/signup",
-            "POST",
-            JSON.stringify({
-              username,
-              password: signinInfo.password.value,
-              geboortejaar: signinInfo.geboortejaar.value,
-              roleLeiding: true,
-            }),
-            {
-              "Content-Type": "application/json",
-            }
-          );
-          auth.login(responseData.userId, responseData.token);
-        } catch (err) {
-          console.log(err);
-        }
+      try {
+        const responseData = await sendRequest(
+          "http://localhost:5000/api/vereniging",
+          "POST",
+          JSON.stringify({
+            username,
+            verenigingName: vereniginInfo.naamVereniging.value,
+            password: vereniginInfo.password.value,
+          }),
+          {
+            "Content-Type": "application/json",
+          }
+        );
+        auth.login(responseData.userId, responseData.token);
+      } catch (err) {
+        console.log(err);
       }
     } else {
       setTouchedState(true);
-      if (!signinInfo.voornaam.isValid) {
+      if (!vereniginInfo.naamVereniging.isValid) {
         ref1.current.focus();
-      } else if (!signinInfo.achternaam.isValid) {
+      } else if (!vereniginInfo.voornaam.isValid) {
         ref2.current.focus();
-      } else if (!signinInfo.password.isValid) {
+      } else if (!vereniginInfo.achternaam.isValid) {
         ref3.current.focus();
+      } else if (!vereniginInfo.password.isValid) {
+        ref4.current.focus();
       }
     }
   };
@@ -136,8 +100,23 @@ const SignUp = (props) => {
   return (
     <>
       {isLoading && <LoadingSpinner />}
-      <form className={classes.signupDiv}>
-        <h2>{signIn ? "Log in" : "Maak je account"}</h2>
+      <form className={classes.verenigingDiv}>
+        <h2>Maak een nieuwe vereniging</h2>
+        <Input
+          type={"text"}
+          onInput={useCallback(
+            (value, isValid) =>
+              stateChangeHandler("naamVereniging", value, isValid),
+            // eslint-disable-next-line
+            []
+          )}
+          validators={[VALIDATOR_REQUIRE()]}
+          errorMessage={"Geef de naam van je vereniging in"}
+          {...(touchedState && { touched: true })}
+          childRef={ref1}
+        >
+          Naam vereniging
+        </Input>
         <div className={classes.naamDiv}>
           <div className={classes.halfDiv}>
             <Input
@@ -152,10 +131,10 @@ const SignUp = (props) => {
               errorMessage={"Geef een voornaam in"}
               autoFocus
               half
-              childRef={ref1}
+              childRef={ref2}
               {...(touchedState && { touched: true })}
             >
-              Voornaam lid
+              Voornaam
             </Input>
           </div>
           <div className={classes.halfDiv}>
@@ -170,25 +149,13 @@ const SignUp = (props) => {
               validators={[VALIDATOR_REQUIRE()]}
               errorMessage={"Geef een achternaam in"}
               half
-              childRef={ref2}
+              childRef={ref3}
               {...(touchedState && { touched: true })}
             >
-              Achternaam lid
+              Achternaam
             </Input>
           </div>
         </div>
-        {!signIn && (
-          <Input
-            type={"select"}
-            onInput={geboortejaarChangeHandler}
-            validators={[]}
-            options={yearOptions}
-            initialValue={signinInfo.geboortejaar.value}
-            touched
-          >
-            Geboortejaar
-          </Input>
-        )}
         <Input
           type={"password"}
           onInput={useCallback(
@@ -199,7 +166,7 @@ const SignUp = (props) => {
           validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(6)]}
           errorMessage={"Kies een wachtwoord van minstens 6 tekens"}
           {...(touchedState && { touched: true })}
-          childRef={ref3}
+          childRef={ref4}
         >
           Wachtwoord
         </Input>
@@ -207,18 +174,15 @@ const SignUp = (props) => {
           <Button
             clicked={buttonClickedHandler}
             btnType={"primary"}
-            disabledS={!signinInfo.isValid}
+            disabledS={!vereniginInfo.isValid}
           >
-            {signIn ? "Inloggen" : "Registreren"}
+            Maak vereniging
           </Button>
         </div>
         {error !== "" && <p className={classes.error}>{error}</p>}
-        <Button clicked={changeSignInHandler} small btnType={"link"}>
-          {signIn ? "Nog geen account?" : "Al een account?"}
-        </Button>
       </form>
     </>
   );
 };
 
-export default SignUp;
+export default NieuweVeringing;
