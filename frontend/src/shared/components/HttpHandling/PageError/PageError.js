@@ -1,6 +1,6 @@
 import { useHistory } from "react-router";
 
-import Button from "../Button/Button";
+import Button from "../../UI/Button/Button";
 import classes from "./PageError.module.scss";
 
 const PageError = (props) => {

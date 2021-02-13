@@ -4,8 +4,8 @@ import { AuthContext } from "../../shared/hooks/auth-context";
 import { sortArrayByDate } from "../../shared/util/sortArrayByDate";
 
 import Year from "./components/Year/Year";
-import Spinner from "../../shared/components/LoadingSpinner/LoadingSpinner";
-import PageError from "../../shared/components/PageError/PageError";
+import Spinner from "../../shared/components/HttpHandling/LoadingSpinner/LoadingSpinner";
+import PageError from "../../shared/components/HttpHandling/PageError/PageError";
 import classes from "./Main.module.scss";
 
 const Main = () => {

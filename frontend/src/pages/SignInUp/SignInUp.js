@@ -9,9 +9,9 @@ import { AuthContext } from "../../shared/hooks/auth-context";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 
 import Input from "../../shared/components/InputWithState/InputWithState";
-import Button from "../../shared/components/Button/Button";
+import Button from "../../shared/components/UI/Button/Button";
 import yearOptions from "./chooseOptions/chooseOptions";
-import LoadingSpinner from "../../shared/components/LoadingSpinnerOverlay/LoadingSpinnerOverlay";
+import LoadingSpinner from "../../shared/components/HttpHandling/LoadingSpinnerOverlay/LoadingSpinnerOverlay";
 
 import classes from "./SignInUp.module.scss";
 

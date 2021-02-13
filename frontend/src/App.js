@@ -48,6 +48,7 @@ function App() {
         <header>
           <h1>Aanwezigheden Chiro Skippy</h1>
         </header>
+        <nav></nav>
         <main>{routes}</main>
         <footer></footer>
       </Router>

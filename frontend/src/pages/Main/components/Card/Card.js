@@ -1,4 +1,4 @@
-import Button from "../../../../shared/components/Button/Button";
+import Button from "../../../../shared/components/UI/Button/Button";
 import Status from "../Status/Status";
 import classes from "./Card.module.scss";
 
