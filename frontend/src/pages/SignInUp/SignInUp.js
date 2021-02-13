@@ -8,7 +8,7 @@ import { useHistory } from "react-router-dom";
 import { AuthContext } from "../../shared/hooks/auth-context";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 
-import Input from "../../shared/components/InputWithState/InputWithState";
+import Input from "../../shared/components/UI/InputWithState/InputWithState";
 import Button from "../../shared/components/UI/Button/Button";
 import yearOptions from "./chooseOptions/chooseOptions";
 import LoadingSpinner from "../../shared/components/HttpHandling/LoadingSpinnerOverlay/LoadingSpinnerOverlay";
@@ -203,15 +203,17 @@ const SignUp = (props) => {
         >
           Wachtwoord
         </Input>
-        <Button
-          clicked={buttonClickedHandler}
-          btnType={"primary"}
-          disabledS={!signinInfo.isValid}
-        >
-          {signIn ? "Inloggen" : "Registreren"}
-        </Button>
+        <div className={classes.buttonMargin}>
+          <Button
+            clicked={buttonClickedHandler}
+            btnType={"primary"}
+            disabledS={!signinInfo.isValid}
+          >
+            {signIn ? "Inloggen" : "Registreren"}
+          </Button>
+        </div>
         {error !== "" && <p className={classes.error}>{error}</p>}
-        <Button clicked={changeSignInHandler} btnType={"link"}>
+        <Button clicked={changeSignInHandler} small btnType={"link"}>
           {signIn ? "Nog geen account?" : "Al een account?"}
         </Button>
       </form>

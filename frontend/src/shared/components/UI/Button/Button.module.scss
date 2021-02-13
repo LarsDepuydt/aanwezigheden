@@ -53,8 +53,6 @@
   background-color: $btnLinkColor;
   display: block;
   margin-top: 0;
-  @include responsive-font($font-min-bl, $font-max-bl, $font-grow-bl);
-  @include responsive-padding($padding-min-link, $padding-max-link, $padding-grow-link);
 }
 
 .link:not([disabled]):focus,

@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { useAuth } from "./shared/hooks/auth-hook";
 
 import Main from "./pages/Main/Main";
+import Navigation from "./shared/components/Navigation/Navigation";
 import SignInUp from "./pages/SignInUp/SignInUp";
 
 function App() {
@@ -48,7 +49,7 @@ function App() {
         <header>
           <h1>Aanwezigheden Chiro Skippy</h1>
         </header>
-        <nav></nav>
+        {token && <Navigation />}
         <main>{routes}</main>
         <footer></footer>
       </Router>

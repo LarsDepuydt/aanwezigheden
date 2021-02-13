@@ -1,6 +1,6 @@
 import { useReducer, useEffect } from "react";
-import { updateObject } from "../../util/utility";
-import { validate } from "../../util/validators";
+import { updateObject } from "../../../util/utility";
+import { validate } from "../../../util/validators";
 
 import Input from "./Input/Input";
 
