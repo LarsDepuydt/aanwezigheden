@@ -1,0 +1,7 @@
+@import "../../scss/mixins";
+
+.errorText {
+  margin: 3vh auto;
+
+  @include errorMessage();
+}

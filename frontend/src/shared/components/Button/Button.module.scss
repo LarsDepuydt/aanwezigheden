@@ -38,16 +38,15 @@
   background-color: $btnPrimHoverBackground;
 }
 
-// // type: secondary
-// .secondary:not([disabled]) {
-//   background-color: $btnSecColor;
-//   border: 1px solid black;
-// }
+// type: secondary
+.secondary:not([disabled]) {
+  background-color: $btnSecColor;
+}
 
-// .secondary:not([disabled]):focus,
-// .secondary:not([disabled]):hover {
-//   background-color: $btnSecHoverColor;
-// }
+.secondary:not([disabled]):focus,
+.secondary:not([disabled]):hover {
+  background-color: $btnSecHoverColor;
+}
 
 // type: link
 .link:not([disabled]) {
@@ -68,4 +67,9 @@
   color: $btnDisabledColor;
   background-color: $btnDisabledBackgroundColor;
   cursor: not-allowed;
+}
+
+.small {
+  @include responsive-font($font-min-bl, $font-max-bl, $font-grow-bl);
+  @include responsive-padding($padding-min-link, $padding-max-link, $padding-grow-link);
 }

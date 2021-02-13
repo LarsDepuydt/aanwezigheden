@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
 
-import LoadingSpinner from "./LoadingSpinner/LoadingSpinner";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import Backdrop from "../Backdrop/Backdrop";
 
 import classes from "./LoadingSpinnerOverlay.module.scss";

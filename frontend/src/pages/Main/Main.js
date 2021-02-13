@@ -4,6 +4,9 @@ import { AuthContext } from "../../shared/hooks/auth-context";
 import { sortArrayByDate } from "../../shared/util/sortArrayByDate";
 
 import Year from "./components/Year/Year";
+import Spinner from "../../shared/components/LoadingSpinner/LoadingSpinner";
+import PageError from "../../shared/components/PageError/PageError";
+import classes from "./Main.module.scss";
 
 const Main = () => {
   const [events, setEvents] = useState([]);
@@ -113,7 +116,20 @@ const Main = () => {
     ));
   }
 
-  return <>{years && years}</>;
+  return (
+    <>
+      {isLoading && !years && (
+        <>
+          <div className={classes.spinnerDiv}>
+            <Spinner />
+          </div>
+          <p>Even geduld, uw evenementen worden geladen</p>
+        </>
+      )}
+      {error && <PageError error={error} clearError={clearError} />}
+      {years && years}
+    </>
+  );
 };
 
 export default Main;

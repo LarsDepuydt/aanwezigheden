@@ -16,6 +16,7 @@ body {
 
 p {
   max-width: 700px;
+  margin: auto;
   @include responsive-font($font-min-p, $font-max-p);
 }
 
