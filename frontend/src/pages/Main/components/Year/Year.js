@@ -10,6 +10,9 @@ const Year = (props) => {
         year={props.year}
         monthNumber={month}
         events={props.months[month]}
+        changeState={(v, id, n, m) =>
+          props.changeState(v, id, n, m, props.year)
+        }
       />
     ));
   }

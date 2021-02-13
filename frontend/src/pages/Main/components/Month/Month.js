@@ -37,7 +37,18 @@ const Month = (props) => {
   let events;
   if (props.events.length !== 0) {
     events = props.events.map((event) => (
-      <Datum key={event._id} event={event} />
+      <Datum
+        key={event._id}
+        event={event}
+        changeState={(v, id) =>
+          props.changeState(
+            v,
+            id,
+            props.events.indexOf(event),
+            props.monthNumber
+          )
+        }
+      />
     ));
   }
 

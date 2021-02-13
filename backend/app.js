@@ -19,8 +19,8 @@ const checkAuth = require("./middleware/checkAuth");
 // #################################
 // start code
 // #################################
-const csrfProtection = csrf({ cookie: true });
-const parseForm = bodyParser.urlencoded({ extended: false });
+//const csrfProtection = csrf({ cookie: true });
+//const parseForm = bodyParser.urlencoded({ extended: false });
 
 const app = express();
 
@@ -49,10 +49,10 @@ app.use(hpp());
 app.use(cookieParser());
 
 // get a valid csrf token
-app.get("/form", csrfProtection, (req, res) => {
-  // pass the csrfToken to the view
-  res.send({ csrfToken: req.csrfToken() });
-});
+// app.get("/form", csrfProtection, (req, res) => {
+//   // pass the csrfToken to the view
+//   res.send({ csrfToken: req.csrfToken() });
+// });
 
 // #################################################################
 // routes

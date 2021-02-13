@@ -28,6 +28,12 @@ const getDay = (date) => {
 const Datum = (props) => {
   const { event } = props;
 
+  const { changeState } = props;
+  const { _id } = event;
+  const changeStateHandler = (value) => {
+    changeState(value, _id);
+  };
+
   const text =
     event.name +
     " om " +
@@ -40,7 +46,7 @@ const Datum = (props) => {
         <p className={classes.day}>{getDay(event.date)}</p>
         <p className={classes.date}>{event.date.getDate()}</p>
       </div>
-      <Card text={text} />
+      <Card text={text} state={event.state} changeState={changeStateHandler} />
     </div>
   );
 };

@@ -15,6 +15,11 @@ const updateAanwezigheid = async (req, res, next) => {
   const { aanwezig, afwezig, onbepaald } = req.body;
   const { userId } = req.userData;
 
+  if (!aanwezig && !afwezig && !onbepaald) {
+    const error = new HttpError("No id send with the request", 422);
+    return next(error);
+  }
+
   let user;
   try {
     user = await User.findById(userId);

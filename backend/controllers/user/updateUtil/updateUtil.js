@@ -28,8 +28,9 @@ const updateEventStatus = (newIdList, user, events, to, userId) => {
     } else if (to === "aanwezig") {
       if (user.afwezig.indexOf(id) !== -1) {
         userAndEvents = updateUserAndEvent(
-          "aanwezig",
+          "afwezig",
           to,
+          id,
           userId,
           newIdList,
           user,
@@ -43,6 +44,7 @@ const updateEventStatus = (newIdList, user, events, to, userId) => {
         userAndEvents = updateUserAndEvent(
           "aanwezig",
           to,
+          id,
           userId,
           newIdList,
           user,

@@ -19,7 +19,7 @@ const Status = (props) => {
       icon = <Check />;
       style.push(classes.green);
       break;
-    case 2:
+    case 0:
       text = "afwezig";
       icon = <Cross />;
       style.push(classes.red);
