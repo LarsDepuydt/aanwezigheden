@@ -12,16 +12,20 @@ const login = async (req, res, next) => {
   }
 
   const { username, password } = req.body;
+  const { vid } = req.params;
 
   let existingUser;
   try {
-    existingUser = await User.findOne({ username: username.toLowerCase() });
+    existingUser = await User.findOne({
+      "user.vereniging": vid,
+      "user.name": username.toLowerCase(),
+    });
   } catch (err) {
     const error = new HttpError(
       "Something went wrong while searching for user",
       500
     );
-    return next(err);
+    return next(error);
   }
 
   if (!existingUser) {
@@ -48,13 +52,16 @@ const login = async (req, res, next) => {
     return next(error);
   }
 
+  const info = {
+    userId: existingUser.id,
+    username: existingUser.user.name,
+    vid: existingUser.user.vereniging,
+    admin: existingUser.admin,
+  };
+
   let token;
   try {
-    token = jwt.sign(
-      { userId: existingUser.id, username: existingUser.username },
-      process.env.JWT_KEY,
-      { expiresIn: "15m" }
-    );
+    token = jwt.sign(info, process.env.JWT_KEY, { expiresIn: "30m" });
   } catch (err) {
     const error = new HttpError("Creating web token failed", 500);
     return next(error);

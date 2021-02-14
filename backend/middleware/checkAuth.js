@@ -15,6 +15,8 @@ module.exports = (req, res, next) => {
     req.userData = {
       userId: decodedToken.userId,
       username: decodedToken.username,
+      vid: decodedToken.vid,
+      admin: decodedToken.admin,
     };
     next();
   } catch (err) {

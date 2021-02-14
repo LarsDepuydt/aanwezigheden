@@ -21,7 +21,6 @@ router.post(
       .isString()
       .isLength({ min: 6 }),
     check("geboortejaar").optional().isNumeric().isLength({ min: 4, max: 4 }),
-    check("admin").notEmpty().isBoolean(),
   ],
   createUser
 );
@@ -43,7 +42,7 @@ router.patch(
 router.use(checkAuth);
 
 router.patch(
-  "/:vid",
+  "/",
   [
     check("aanwezig")
       .optional()
