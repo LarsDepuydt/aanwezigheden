@@ -6,10 +6,13 @@ export const useAuth = () => {
   const [token, setToken] = useState(false);
   const [tokenExpirationDate, setTokenExpirationDate] = useState();
   const [userId, setUserId] = useState(false);
+  const [admin, setAdmin] = useState(null);
+  const [vid, setVid] = useState(null);
 
-  const login = useCallback((uid, token, expirationDate) => {
+  const login = useCallback((uid, token, admin, expirationDate) => {
     setToken(token);
     setUserId(uid);
+    setAdmin(admin);
     const tokenExpirationDate =
       expirationDate || new Date(new Date().getTime() + 1000 * 60 * 30);
     setTokenExpirationDate(tokenExpirationDate);
@@ -18,6 +21,7 @@ export const useAuth = () => {
       JSON.stringify({
         userId: uid,
         token: token,
+        admin: admin,
         expiration: tokenExpirationDate.toISOString(),
       })
     );
@@ -27,7 +31,12 @@ export const useAuth = () => {
     setToken(null);
     setTokenExpirationDate(null);
     setUserId(null);
+    setAdmin(null);
     localStorage.removeItem("userData");
+  }, []);
+
+  const setVidFunction = useCallback((vid) => {
+    setVid(vid);
   }, []);
 
   useEffect(() => {
@@ -50,10 +59,11 @@ export const useAuth = () => {
       login(
         storedData.userId,
         storedData.token,
+        storedData.admin,
         new Date(storedData.expiration)
       );
     }
   }, [login]);
 
-  return { token, login, logout, userId };
+  return { token, admin, login, logout, userId, vid, setVid: setVidFunction };
 };

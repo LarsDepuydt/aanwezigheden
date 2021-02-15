@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { AuthContext } from "../../hooks/auth-context";
+import { AuthContext } from "../../../hooks/auth-context";
 
-import Button from "../UI/Button/Button";
+import Button from "../../UI/Button/Button";
 import classes from "./Navigation.module.scss";
 
 const Navigation = () => {

@@ -67,18 +67,11 @@ const NieuweVeringing = () => {
         vereniginInfo.voornaam.value + " " + vereniginInfo.achternaam.value;
 
       try {
-        const responseData = await sendRequest(
-          "http://localhost:5000/api/vereniging",
-          "POST",
-          JSON.stringify({
-            username,
-            verenigingName: vereniginInfo.naamVereniging.value,
-            password: vereniginInfo.password.value,
-          }),
-          {
-            "Content-Type": "application/json",
-          }
-        );
+        const responseData = await sendRequest("api/vereniging", "post", {
+          name: vereniginInfo.naamVereniging.value,
+          username,
+          password: vereniginInfo.password.value,
+        });
         auth.login(responseData.userId, responseData.token);
       } catch (err) {
         console.log(err);

@@ -87,14 +87,11 @@ const SignUp = (props) => {
       if (signIn) {
         try {
           const responseData = await sendRequest(
-            "http://localhost:5000/api/users/login",
-            "PATCH",
-            JSON.stringify({
+            `api/users/${auth.vid}/login`,
+            "patch",
+            {
               username,
               password: signinInfo.password.value,
-            }),
-            {
-              "Content-Type": "application/json",
             }
           );
           auth.login(responseData.userId, responseData.token);
@@ -104,19 +101,20 @@ const SignUp = (props) => {
       } else {
         try {
           const responseData = await sendRequest(
-            "http://localhost:5000/api/users/signup",
-            "POST",
-            JSON.stringify({
+            `api/users/${auth.vid}/signup`,
+            "post",
+            {
               username,
               password: signinInfo.password.value,
               geboortejaar: signinInfo.geboortejaar.value,
               roleLeiding: true,
-            }),
-            {
-              "Content-Type": "application/json",
             }
           );
-          auth.login(responseData.userId, responseData.token);
+          auth.login(
+            responseData.userId,
+            responseData.token,
+            responseData.admin
+          );
         } catch (err) {
           console.log(err);
         }

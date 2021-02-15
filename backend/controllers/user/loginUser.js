@@ -67,7 +67,9 @@ const login = async (req, res, next) => {
     return next(error);
   }
 
-  res.status(200).json({ userId: existingUser.id, token });
+  res
+    .status(200)
+    .json({ userId: existingUser.id, token, admin: existingUser.admin });
 };
 
 module.exports = login;

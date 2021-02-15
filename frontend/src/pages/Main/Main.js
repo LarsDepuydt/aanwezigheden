@@ -17,14 +17,9 @@ const Main = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const responseData = await sendRequest(
-          `http://localhost:5000/api/event`,
-          "GET",
-          null,
-          {
-            Authorization: "Bearer " + token,
-          }
-        );
+        const responseData = await sendRequest(`api/event`, "get", null, {
+          Authorization: "Bearer " + token,
+        });
 
         const eventsArray = [];
         if (responseData.events.aanwezig.length !== 0) {
@@ -127,7 +122,11 @@ const Main = () => {
         </>
       )}
       {error && <PageError error={error} clearError={clearError} />}
-      {years && years}
+      {!isLoading && years && years.length === 0 ? (
+        <p>Er zijn nog geen evenementen aangemaakt door je vereniging</p>
+      ) : (
+        years
+      )}
     </>
   );
 };

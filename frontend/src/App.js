@@ -3,13 +3,14 @@ import { AuthContext } from "./shared/hooks/auth-context";
 import { BrowserRouter as Router } from "react-router-dom";
 import { useAuth } from "./shared/hooks/auth-hook";
 
+import GetVid from "./shared/components/hoc/GetVid/GetVid";
 import NieuweVereniging from "./pages/NieuweVereniging/NieuweVeringing";
 import SignInUp from "./pages/SignInUp/SignInUp";
 import Main from "./pages/Main/Main";
-import Navigation from "./shared/components/Navigation/Navigation";
+import Navigation from "./shared/components/hoc/Navigation/Navigation";
 
-function App() {
-  const { token, login, logout, userId } = useAuth();
+const App = () => {
+  const { token, admin, login, logout, userId, vid, setVid } = useAuth();
 
   let routes;
   if (token) {
@@ -24,16 +25,20 @@ function App() {
   } else {
     routes = (
       <Switch>
-        <Route path="/inloggen">
-          <SignInUp signIn={true} />
+        <Route path="/:verenigingNaam/inloggen">
+          <GetVid>
+            <SignInUp signIn={true} />
+          </GetVid>
         </Route>
-        <Route path="/registreren">
-          <SignInUp signIn={false} />
+        <Route path="/:verenigingNaam/registreren">
+          <GetVid>
+            <SignInUp signIn={false} />
+          </GetVid>
         </Route>
-        <Route path="/nieuwe-vereniging">
+        <Route exact path="/nieuwe-vereniging">
           <NieuweVereniging />
         </Route>
-        <Redirect to="/inloggen" />
+        <Redirect to="/nieuwe-vereniging" />
       </Switch>
     );
   }
@@ -45,8 +50,11 @@ function App() {
         userId,
         token: token,
         csrf: "",
+        admin: admin,
+        vid,
         login,
         logout,
+        setVid,
       }}
     >
       <Router>
@@ -59,6 +67,6 @@ function App() {
       </Router>
     </AuthContext.Provider>
   );
-}
+};
 
 export default App;
