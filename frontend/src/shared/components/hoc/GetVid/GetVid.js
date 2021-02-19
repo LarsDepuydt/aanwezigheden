@@ -1,8 +1,10 @@
 import { useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
-
+import { useParams, useHistory } from "react-router-dom";
 import { AuthContext } from "../../../hooks/auth-context";
 import { useHttpClient } from "../../../hooks/http-hook";
+
+import LoadingSpinner from "../../HttpHandling/Spinners/LoadinsSpinnerCenter/LoadingSpinnerCenter";
+import PageError from "../../HttpHandling/PageError/PageError";
 
 const GetVid = (props) => {
   const auth = useContext(AuthContext);
@@ -12,16 +14,36 @@ const GetVid = (props) => {
   const setVid = auth.setVid;
   useEffect(() => {
     const fetchVid = async () => {
-      const responseData = await sendRequest("api/vereniging", "get", {
-        name: verenigingNaam.replace("-", " "),
-      });
+      try {
+        const responseData = await sendRequest("api/vereniging", "get", {
+          name: verenigingNaam.replace("-", " "),
+        });
 
-      setVid(responseData.vid);
+        setVid(responseData.vid);
+      } catch (err) {}
     };
     fetchVid();
   }, [sendRequest, verenigingNaam, setVid]);
 
-  return <>{props.children}</>;
+  const history = useHistory();
+  const redirectToVerenigingHandler = () => {
+    clearError();
+    history.push("/nieuwe-vereniging");
+  };
+
+  return (
+    <>
+      {isLoading && <LoadingSpinner />}
+      {!isLoading && error && (
+        <PageError
+          error="Vereniging niet gevonden"
+          btnText="Maak een vereniging"
+          btnClicked={redirectToVerenigingHandler}
+        />
+      )}
+      {!isLoading && !error && props.children}
+    </>
+  );
 };
 
 export default GetVid;

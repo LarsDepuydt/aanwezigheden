@@ -1,7 +1,7 @@
 const HttpError = require("../../models/http-error");
 const Vereniging = require("../../models/vereniging");
 
-const getEvents = async (req, res, next) => {
+const getVerenigingId = async (req, res, next) => {
   const { name } = req.query;
 
   let vereniging;
@@ -20,4 +20,4 @@ const getEvents = async (req, res, next) => {
   res.status(200).json({ vid: vereniging.id });
 };
 
-module.exports = getEvents;
+module.exports = getVerenigingId;

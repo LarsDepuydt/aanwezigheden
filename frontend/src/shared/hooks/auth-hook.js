@@ -9,22 +9,22 @@ export const useAuth = () => {
   const [admin, setAdmin] = useState(null);
   const [vid, setVid] = useState(null);
 
-  const login = useCallback((uid, token, admin, expirationDate) => {
+  const login = useCallback((uid, token, admin = false, expirationDate) => {
     setToken(token);
     setUserId(uid);
     setAdmin(admin);
     const tokenExpirationDate =
       expirationDate || new Date(new Date().getTime() + 1000 * 60 * 30);
     setTokenExpirationDate(tokenExpirationDate);
-    localStorage.setItem(
-      "userData",
-      JSON.stringify({
-        userId: uid,
-        token: token,
-        admin: admin,
-        expiration: tokenExpirationDate.toISOString(),
-      })
-    );
+    // localStorage.setItem(
+    //   "userData",
+    //   JSON.stringify({
+    //     userId: uid,
+    //     token: token,
+    //     admin: admin,
+    //     expiration: tokenExpirationDate.toISOString(),
+    //   })
+    // );
   }, []);
 
   const logout = useCallback(() => {

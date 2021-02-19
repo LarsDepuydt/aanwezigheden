@@ -1,12 +1,12 @@
 import { useState, useEffect, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/hooks/auth-context";
 import { sortArrayByDate } from "../../shared/util/sortArrayByDate";
 
 import Year from "./components/Year/Year";
-import Spinner from "../../shared/components/HttpHandling/LoadingSpinner/LoadingSpinner";
+import Spinner from "../../shared/components/HttpHandling/Spinners/LoadinsSpinnerCenter/LoadingSpinnerCenter";
 import PageError from "../../shared/components/HttpHandling/PageError/PageError";
-import classes from "./Main.module.scss";
 
 const Main = () => {
   const [events, setEvents] = useState([]);
@@ -16,9 +16,10 @@ const Main = () => {
   const { token } = auth;
   useEffect(() => {
     const fetchEvents = async () => {
+      console.log(token);
       try {
         const responseData = await sendRequest(`api/event`, "get", null, {
-          Authorization: "Bearer " + token,
+          Authorization: `Bearer ${token}`,
         });
 
         const eventsArray = [];
@@ -46,9 +47,7 @@ const Main = () => {
 
         const eventsSorted = sortArrayByDate(eventsArray);
         setEvents(eventsSorted);
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     };
     fetchEvents();
   }, [sendRequest, token]);
@@ -85,17 +84,22 @@ const Main = () => {
       await sendRequest(
         `http://localhost:5000/api/users`,
         "PATCH",
-        JSON.stringify({
-          [name]: idList,
-        }),
         {
-          "Content-Type": "application/json",
+          [name]: idList,
+        },
+        {
           Authorization: "Bearer " + token,
         }
       );
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const history = useHistory();
+  const reloadPageHandler = () => {
+    clearError();
+    history.push(0);
   };
 
   let years;
@@ -115,13 +119,17 @@ const Main = () => {
     <>
       {isLoading && !years && (
         <>
-          <div className={classes.spinnerDiv}>
-            <Spinner />
-          </div>
+          <Spinner />
           <p>Even geduld, uw evenementen worden geladen</p>
         </>
       )}
-      {error && <PageError error={error} clearError={clearError} />}
+      {error && !isLoading && !years && (
+        <PageError
+          error={error}
+          clicked={reloadPageHandler}
+          btnText="Probeer opnieuw"
+        />
+      )}
       {!isLoading && years && years.length === 0 ? (
         <p>Er zijn nog geen evenementen aangemaakt door je vereniging</p>
       ) : (

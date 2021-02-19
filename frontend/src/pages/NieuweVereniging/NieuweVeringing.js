@@ -1,4 +1,5 @@
 import { useState, useReducer, useCallback, useRef, useContext } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import {
   VALIDATOR_REQUIRE,
   VALIDATOR_MINLENGTH,
@@ -9,7 +10,7 @@ import { useHttpClient } from "../../shared/hooks/http-hook";
 
 import Input from "../../shared/components/UI/InputWithState/InputWithState";
 import Button from "../../shared/components/UI/Button/Button";
-import LoadingSpinner from "../../shared/components/HttpHandling/LoadingSpinnerOverlay/LoadingSpinnerOverlay";
+import LoadingSpinner from "../../shared/components/HttpHandling/Spinners/LoadingSpinnerOverlay/LoadingSpinnerOverlay";
 
 import classes from "./SignInUp.module.scss";
 
@@ -60,6 +61,9 @@ const NieuweVeringing = () => {
   const ref3 = useRef(null);
   const ref4 = useRef(null);
 
+  const history = useHistory();
+  const { verenigingNaam } = useParams();
+
   const buttonClickedHandler = async (event) => {
     event.preventDefault();
     if (vereniginInfo.isValid) {
@@ -73,6 +77,7 @@ const NieuweVeringing = () => {
           password: vereniginInfo.password.value,
         });
         auth.login(responseData.userId, responseData.token);
+        history.push("/" + verenigingNaam);
       } catch (err) {
         console.log(err);
       }
@@ -106,6 +111,7 @@ const NieuweVeringing = () => {
           validators={[VALIDATOR_REQUIRE()]}
           errorMessage={"Geef de naam van je vereniging in"}
           {...(touchedState && { touched: true })}
+          autoFocus
           childRef={ref1}
         >
           Naam vereniging
@@ -122,7 +128,6 @@ const NieuweVeringing = () => {
               )}
               validators={[VALIDATOR_REQUIRE()]}
               errorMessage={"Geef een voornaam in"}
-              autoFocus
               half
               childRef={ref2}
               {...(touchedState && { touched: true })}

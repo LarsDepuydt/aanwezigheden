@@ -20,13 +20,13 @@ export const useHttpClient = () => {
         let response;
         if (method === "get") {
           response = await axiosRoot[method](url, {
-            ...headers,
+            headers: headers,
             params: body,
             cancelToken: source.token,
           });
         } else {
           response = await axiosRoot[method](url, body, {
-            ...headers,
+            headers: headers,
             cancelToken: source.token,
           });
         }
@@ -39,7 +39,9 @@ export const useHttpClient = () => {
         setIsLoading(false);
         return response.data;
       } catch (err) {
-        setError(err.response.data.message);
+        if (err.response) {
+          setError(err.response.data.message);
+        }
         setIsLoading(false);
         throw err;
       }

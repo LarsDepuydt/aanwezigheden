@@ -11,7 +11,7 @@ import { useHttpClient } from "../../shared/hooks/http-hook";
 import Input from "../../shared/components/UI/InputWithState/InputWithState";
 import Button from "../../shared/components/UI/Button/Button";
 import yearOptions from "./chooseOptions/chooseOptions";
-import LoadingSpinner from "../../shared/components/HttpHandling/LoadingSpinnerOverlay/LoadingSpinnerOverlay";
+import LoadingSpinner from "../../shared/components/HttpHandling/Spinners/LoadingSpinnerOverlay/LoadingSpinnerOverlay";
 
 import classes from "./SignInUp.module.scss";
 
@@ -94,10 +94,12 @@ const SignUp = (props) => {
               password: signinInfo.password.value,
             }
           );
-          auth.login(responseData.userId, responseData.token);
-        } catch (err) {
-          console.log(err);
-        }
+          auth.login(
+            responseData.userId,
+            responseData.token,
+            responseData.admin
+          );
+        } catch (err) {}
       } else {
         try {
           const responseData = await sendRequest(
@@ -115,9 +117,7 @@ const SignUp = (props) => {
             responseData.token,
             responseData.admin
           );
-        } catch (err) {
-          console.log(err);
-        }
+        } catch (err) {}
       }
     } else {
       setTouchedState(true);
