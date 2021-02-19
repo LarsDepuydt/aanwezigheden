@@ -12,7 +12,7 @@ import Input from "../../shared/components/UI/InputWithState/InputWithState";
 import Button from "../../shared/components/UI/Button/Button";
 import LoadingSpinner from "../../shared/components/HttpHandling/Spinners/LoadingSpinnerOverlay/LoadingSpinnerOverlay";
 
-import classes from "./SignInUp.module.scss";
+import classes from "./NieuweVereniging.module.scss";
 
 const verenigingReducer = (state, action) => {
   switch (action.type) {
@@ -78,9 +78,7 @@ const NieuweVeringing = () => {
         });
         auth.login(responseData.userId, responseData.token);
         history.push("/" + verenigingNaam);
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     } else {
       setTouchedState(true);
       if (!vereniginInfo.naamVereniging.isValid) {
@@ -128,7 +126,6 @@ const NieuweVeringing = () => {
               )}
               validators={[VALIDATOR_REQUIRE()]}
               errorMessage={"Geef een voornaam in"}
-              half
               childRef={ref2}
               {...(touchedState && { touched: true })}
             >
@@ -146,7 +143,6 @@ const NieuweVeringing = () => {
               )}
               validators={[VALIDATOR_REQUIRE()]}
               errorMessage={"Geef een achternaam in"}
-              half
               childRef={ref3}
               {...(touchedState && { touched: true })}
             >

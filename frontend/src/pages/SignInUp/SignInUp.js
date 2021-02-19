@@ -139,7 +139,7 @@ const SignUp = (props) => {
         <div className={classes.naamDiv}>
           <div className={classes.halfDiv}>
             <Input
-              type={"text"}
+              type="text"
               onInput={useCallback(
                 (value, isValid) =>
                   stateChangeHandler("voornaam", value, isValid),
@@ -147,9 +147,8 @@ const SignUp = (props) => {
                 []
               )}
               validators={[VALIDATOR_REQUIRE()]}
-              errorMessage={"Geef een voornaam in"}
+              errorMessage="Geef een voornaam in"
               autoFocus
-              half
               childRef={ref1}
               {...(touchedState && { touched: true })}
             >
@@ -158,7 +157,7 @@ const SignUp = (props) => {
           </div>
           <div className={classes.halfDiv}>
             <Input
-              type={"text"}
+              type="text"
               onInput={useCallback(
                 (value, isValid) =>
                   stateChangeHandler("achternaam", value, isValid),
@@ -166,8 +165,7 @@ const SignUp = (props) => {
                 []
               )}
               validators={[VALIDATOR_REQUIRE()]}
-              errorMessage={"Geef een achternaam in"}
-              half
+              errorMessage="Geef een achternaam in"
               childRef={ref2}
               {...(touchedState && { touched: true })}
             >
@@ -177,7 +175,7 @@ const SignUp = (props) => {
         </div>
         {!signIn && (
           <Input
-            type={"select"}
+            type="select"
             onInput={geboortejaarChangeHandler}
             validators={[]}
             options={yearOptions}
@@ -188,14 +186,14 @@ const SignUp = (props) => {
           </Input>
         )}
         <Input
-          type={"password"}
+          type="password"
           onInput={useCallback(
             (value, isValid) => stateChangeHandler("password", value, isValid),
             // eslint-disable-next-line
             []
           )}
           validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(6)]}
-          errorMessage={"Kies een wachtwoord van minstens 6 tekens"}
+          errorMessage="Kies een wachtwoord van minstens 6 tekens"
           {...(touchedState && { touched: true })}
           childRef={ref3}
         >
@@ -204,7 +202,7 @@ const SignUp = (props) => {
         <div className={classes.buttonMargin}>
           <Button
             clicked={buttonClickedHandler}
-            btnType={"primary"}
+            btnType="primary"
             disabledS={!signinInfo.isValid}
           >
             {signIn ? "Inloggen" : "Registreren"}

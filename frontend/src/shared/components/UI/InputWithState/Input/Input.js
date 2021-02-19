@@ -8,6 +8,7 @@ const Input = (props) => {
         className={[
           classes.Input,
           !props.isValid && props.touched && classes.Invalid,
+          props.center && classes.center,
         ].join(" ")}
         value={props.value}
         onChange={props.change}

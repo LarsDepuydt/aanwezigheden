@@ -23,10 +23,21 @@ const inputReducer = (state, action) => {
 
 const InputWithState = (props) => {
   const [inputState, dispatch] = useReducer(inputReducer, {
-    value: props.initialValue || "",
+    value: "",
     touched: props.touched || false,
-    isValid: validate(props.initialValue, props.validators) || false,
+    isValid: false,
   });
+
+  const { initialValue, validators } = props;
+  useEffect(() => {
+    if (initialValue) {
+      dispatch({
+        type: "CHANGE",
+        value: initialValue,
+        isValid: validate(initialValue, validators),
+      });
+    }
+  }, [initialValue, validators]);
 
   const { onInput } = props;
   const { value, isValid } = inputState;

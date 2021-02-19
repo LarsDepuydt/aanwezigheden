@@ -16,7 +16,6 @@ const Main = () => {
   const { token } = auth;
   useEffect(() => {
     const fetchEvents = async () => {
-      console.log(token);
       try {
         const responseData = await sendRequest(`api/event`, "get", null, {
           Authorization: `Bearer ${token}`,
@@ -91,9 +90,7 @@ const Main = () => {
           Authorization: "Bearer " + token,
         }
       );
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   const history = useHistory();

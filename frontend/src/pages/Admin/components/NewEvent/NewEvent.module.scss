@@ -1,0 +1,25 @@
+@import "../../../../shared/scss/mixins";
+
+.EventDiv {
+  @include box($max-padding: 50px, $grow: 7.5vw);
+
+  .h2 {
+    @include responsive-font(20px, $font-max-h2, 7.8vw);
+  }
+
+  .timeDiv {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 60px;
+
+    .dateDiv {
+      flex-basis: 188px;
+      flex-grow: 1;
+    }
+
+    .hourDiv {
+      flex-basis: 122px;
+      flex-grow: 1;
+    }
+  }
+}

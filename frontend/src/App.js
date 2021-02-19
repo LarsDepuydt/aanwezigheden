@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { useAuth } from "./shared/hooks/auth-hook";
 
 import GetVid from "./shared/components/hoc/GetVid/GetVid";
-import NieuweVereniging from "./pages/NieuweVereniging/NieuweVeringing";
+import NieuweVereniging from "./pages/NieuweVereniging/NieuweVereniging";
 import SignInUp from "./pages/SignInUp/SignInUp";
 import Main from "./pages/Main/Main";
 import Admin from "./pages/Admin/Admin";
@@ -13,7 +13,6 @@ import PageError from "./shared/components/HttpHandling/PageError/PageError";
 
 const App = () => {
   const { token, admin, login, logout, userId, vid, setVid } = useAuth();
-  console.log(vid);
 
   let routes;
   if (token) {

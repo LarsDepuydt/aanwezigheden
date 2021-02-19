@@ -34,7 +34,6 @@ export const useHttpClient = () => {
         activeHttpRequests.current = activeHttpRequests.current.filter(
           (reqCtrl) => reqCtrl !== source
         );
-        console.log(response.data);
 
         setIsLoading(false);
         return response.data;

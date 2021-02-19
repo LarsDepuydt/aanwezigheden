@@ -1,13 +1,7 @@
-@import "../../shared/scss/values";
 @import "../../shared/scss/mixins";
 
 .signupDiv {
-  margin: 10vmin auto 0 auto;
-  width: 100%;
-  max-width: 550px;
-  border-radius: $borderRadius;
-  padding: 20px;
-  @include box-shadow();
+  @include box();
 
   h2 {
     margin-bottom: 7vmin;
@@ -30,13 +24,5 @@
 
   .error {
     @include errorMessage();
-  }
-}
-
-@media (max-width: 560px) {
-  .signupDiv {
-    width: 100%;
-    box-shadow: none;
-    padding: 10px;
   }
 }

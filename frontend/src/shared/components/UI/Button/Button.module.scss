@@ -18,13 +18,13 @@
 .positive {
   margin: auto 0;
   background-color: green;
-  @include responsive-padding($padding-min-janee, $padding-max-janee, $padding-grow-janee, $verhouding-janee);
+  @include responsive-padding($padding-min-janee, $padding-max-janee, $padding-grow-janee, $padding-verhouding-janee);
 }
 
 .negative {
   margin: auto 0;
   background-color: red;
-  @include responsive-padding($padding-min-janee, $padding-max-janee, $padding-grow-janee, $verhouding-janee);
+  @include responsive-padding($padding-min-janee, $padding-max-janee, $padding-grow-janee, $padding-verhouding-janee);
 }
 
 // type: primary
