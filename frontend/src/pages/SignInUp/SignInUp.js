@@ -55,7 +55,8 @@ const SignUp = (props) => {
     dispatch({
       type: "CHECK_VALID",
     });
-    clearError();
+
+    error && clearError();
   };
 
   const geboortejaarChangeHandler = useCallback((value, isValid) => {

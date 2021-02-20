@@ -6,6 +6,11 @@ import { useHttpClient } from "../../../hooks/http-hook";
 import LoadingSpinner from "../../HttpHandling/Spinners/LoadinsSpinnerCenter/LoadingSpinnerCenter";
 import PageError from "../../HttpHandling/PageError/PageError";
 
+// #################################################################
+// heb ik de vid eigenlijk wel nodig? Zit in token
+console.log("?? vid ??");
+// #################################################################
+
 const GetVid = (props) => {
   const auth = useContext(AuthContext);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();

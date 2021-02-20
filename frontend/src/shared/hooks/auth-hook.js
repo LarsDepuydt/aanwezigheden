@@ -4,7 +4,7 @@ let logoutTimer;
 
 export const useAuth = () => {
   const [token, setToken] = useState(false);
-  const [tokenExpirationDate, setTokenExpirationDate] = useState();
+  const [tokenExpirationDate, setTokenExpirationDate] = useState(null);
   const [userId, setUserId] = useState(false);
   const [admin, setAdmin] = useState(null);
   const [vid, setVid] = useState(null);

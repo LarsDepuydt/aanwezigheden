@@ -3,6 +3,7 @@ const { check } = require("express-validator");
 
 const createEvent = require("../controllers/event/createEvent");
 const getEvents = require("../controllers/event/getEvents");
+const getOneEvent = require("../controllers/event/getOneEvent");
 const updateEvent = require("../controllers/event/updateEvent");
 const deleteEvent = require("../controllers/event/deleteEvent");
 
@@ -18,6 +19,8 @@ router.post(
 );
 
 router.get("/", getEvents);
+
+router.get("/:id", getOneEvent);
 
 router.patch(
   "/:id",

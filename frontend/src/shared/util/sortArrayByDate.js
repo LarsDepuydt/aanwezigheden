@@ -1,5 +1,7 @@
 export const sortArrayByDate = (eventsArray) => {
   let yearsObject = {};
+  let test = "test";
+  console.log(eventsArray.length);
 
   for (const event of eventsArray) {
     const date = new Date(event.date);
@@ -25,6 +27,8 @@ export const sortArrayByDate = (eventsArray) => {
           monthArray.splice(position, 0, event);
           break;
         } else if (day === monthEvent.date.getDate()) {
+          console.log("new:", date.getHours());
+          console.log("compare:", monthEvent.date.getHours());
           if (date.getHours() < monthEvent.date.getHours()) {
             const position = monthArray.indexOf(monthEvent);
             monthArray.splice(position, 0, event);
@@ -36,18 +40,25 @@ export const sortArrayByDate = (eventsArray) => {
               break;
             } else {
               const position = monthArray.indexOf(monthEvent);
-              if (day !== monthArray[position + 1].getDate()) {
+              if (position === monthArray.length - 1) {
+                monthArray.push(event);
+                break;
+              } else if (day !== monthArray[position + 1].date.getDate()) {
                 monthArray.splice(position + 1, 0, event);
                 break;
-              }
-              if (date.getHours() !== monthArray[position + 1].getHours()) {
+              } else if (
+                date.getHours() !== monthArray[position + 1].date.getHours()
+              ) {
                 monthArray.splice(position + 1, 0, event);
                 break;
               }
             }
           } else {
             const position = monthArray.indexOf(monthEvent);
-            if (day !== monthArray[position + 1].getDate()) {
+            if (position === monthArray.length - 1) {
+              monthArray.push(event);
+              break;
+            } else if (day !== monthArray[position + 1].date.getDate()) {
               monthArray.splice(position + 1, 0, event);
               break;
             }
@@ -60,7 +71,10 @@ export const sortArrayByDate = (eventsArray) => {
         }
       }
     }
+    console.log(yearsObject);
   }
+  console.log("outside:", yearsObject);
+  console.log("test");
 
   return yearsObject;
 };

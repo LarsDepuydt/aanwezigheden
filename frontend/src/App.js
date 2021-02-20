@@ -7,7 +7,6 @@ import GetVid from "./shared/components/hoc/GetVid/GetVid";
 import NieuweVereniging from "./pages/NieuweVereniging/NieuweVereniging";
 import SignInUp from "./pages/SignInUp/SignInUp";
 import Main from "./pages/Main/Main";
-import Admin from "./pages/Admin/Admin";
 import Navigation from "./shared/components/hoc/Navigation/Navigation";
 import PageError from "./shared/components/HttpHandling/PageError/PageError";
 
@@ -16,27 +15,15 @@ const App = () => {
 
   let routes;
   if (token) {
-    if (!admin) {
-      routes = (
-        <Switch>
-          <Route exact path="/:verenigingNaam">
-            <Main />
-          </Route>
-          <Redirect from="/:verenigingNaam" to="/:verenigingNaam" />
-          <PageError error="Vereniging bestaat niet" />
-        </Switch>
-      );
-    } else {
-      routes = (
-        <Switch>
-          <Route exact path="/:verenigingNaam">
-            <Admin />
-          </Route>
-          <Redirect from="/:verenigingNaam" to="/:verenigingNaam" />
-          <PageError error="Vereniging bestaat niet" />
-        </Switch>
-      );
-    }
+    routes = (
+      <Switch>
+        <Route exact path="/:verenigingNaam">
+          <Main />
+        </Route>
+        <Redirect from="/:verenigingNaam" to="/:verenigingNaam" />
+        <PageError error="Vereniging bestaat niet" />
+      </Switch>
+    );
   } else {
     routes = (
       <Switch>

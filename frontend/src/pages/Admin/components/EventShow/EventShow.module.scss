@@ -22,4 +22,13 @@
       flex-grow: 1;
     }
   }
+
+  .error {
+    @include errorMessage();
+  }
+
+  .text {
+    margin-bottom: 3vh;
+    @include responsive-font($font-min-label, $font-max-label, $font-grow-label);
+  }
 }

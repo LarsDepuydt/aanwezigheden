@@ -5,7 +5,7 @@ import axiosRoot from "./axios-root";
 
 export const useHttpClient = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState();
+  const [error, setError] = useState(null);
 
   const activeHttpRequests = useRef([]);
 
@@ -38,6 +38,9 @@ export const useHttpClient = () => {
         setIsLoading(false);
         return response.data;
       } catch (err) {
+        if (err.message) {
+          setError(err.message);
+        }
         if (err.response) {
           setError(err.response.data.message);
         }
