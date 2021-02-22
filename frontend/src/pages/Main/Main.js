@@ -93,6 +93,21 @@ const Main = () => {
     } catch (err) {}
   };
 
+  const eventUpdatedHandler = (obj, id, number, month, year) => {
+    const newEvents = { ...events };
+    newEvents[year][month][number].name = obj.name;
+
+    if (obj.date.getYear() === newEvents[year][month])
+      for (const event of newEvents[year][month]) {
+        if (event.id === id) {
+          newEvents[year][month].pull(event);
+        }
+      }
+
+    console.log(newEvents);
+    //setEvents(newEvents);
+  };
+
   const history = useHistory();
   const reloadPageHandler = () => {
     clearError();
@@ -108,6 +123,7 @@ const Main = () => {
         year={year}
         months={events[year]}
         changeState={cardStateChangeHandler}
+        eventUpdated={eventUpdatedHandler}
       />
     ));
   }

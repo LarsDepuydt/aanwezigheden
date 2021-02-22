@@ -1,49 +1,22 @@
-import { useState, useEffect, useContext } from "react";
-import { useHttpClient } from "../../../../shared/hooks/http-hook";
-import { AuthContext } from "../../../../shared/hooks/auth-context";
-
 import EventShow from "../EventShow/EventShow";
 
 const EditEvent = (props) => {
-  const [values, setValues] = useState({
+  const { dateObj } = props;
+
+  const date =
+    dateObj.getFullYear() + "-" + dateObj.getMonth() + "-" + dateObj.getDate();
+  const hour = ("0" + dateObj.getHours()).slice(-2);
+  const time = hour + ":" + dateObj.getMinutes();
+
+  const values = {
     id: props.id,
-  });
-  const auth = useContext(AuthContext);
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
-
-  const { id } = props;
-  const { token } = auth;
-  useEffect(() => {
-    const fetchEvent = async () => {
-      const response = await sendRequest(`/api/${id}`, "get", null, {
-        Authorization: "Bearer " + token,
-      });
-
-      const dateObj = new Date(response.date);
-      const date =
-        dateObj.getFullYear() +
-        "-" +
-        dateObj.getMonth() +
-        "-" +
-        dateObj.getDate();
-      const time = dateObj.getHours() + ":" + dateObj.getMinutes();
-      setValues({ name: response.name, date, time });
-    };
-    fetchEvent();
-  }, [sendRequest, id, token]);
+    name: props.name,
+    date,
+    time,
+  };
 
   return (
-    <>
-      {!isLoading && (
-        <EventShow
-          method="patch"
-          initialValue={values}
-          isLoading={isLoading}
-          error={error}
-          clearError={clearError}
-        />
-      )}
-    </>
+    <EventShow method="patch" initialValue={values} succes={props.succes} />
   );
 };
 

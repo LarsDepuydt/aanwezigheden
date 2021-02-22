@@ -1,4 +1,11 @@
-import { useReducer, useCallback, useContext, useState, useRef } from "react";
+import {
+  useReducer,
+  useCallback,
+  useContext,
+  useState,
+  useRef,
+  useEffect,
+} from "react";
 import {
   VALIDATOR_REQUIRE,
   VALIDATOR_DATE,
@@ -50,7 +57,6 @@ const EventShow = (props) => {
     dispatch({ type: "CHECK_VALID" });
 
     error && clearError();
-    props.error && props.clearError();
   };
 
   // handels form state changes
@@ -88,7 +94,7 @@ const EventShow = (props) => {
       try {
         let url = "/api/event";
         if (props.method === "patch") {
-          url = url + props.initialValue.id;
+          url = url + "/" + props.initialValue.id;
         }
 
         await sendRequest(
@@ -104,6 +110,7 @@ const EventShow = (props) => {
         );
 
         setEventCreated(true);
+        props.succes({ name: eventState.name.value, date: dateObj });
       } catch (err) {}
     } else {
       setTouchedState(true);
@@ -123,8 +130,10 @@ const EventShow = (props) => {
   };
 
   let headerText;
+  let btnText;
   if (props.method === "post") {
     headerText = "Maak een nieuw event";
+    btnText = "Maak event";
     if (isLoading) {
       headerText = "Event wordt gecreëerd";
     }
@@ -133,20 +142,25 @@ const EventShow = (props) => {
     }
   } else if (props.method === "patch") {
     headerText = "Event aanpassen";
+    btnText = "Opslagen";
     if (isLoading) {
       headerText = "Event wordt aangepast";
     }
     if (eventCreated) {
       headerText = "Event aangepast";
     }
-    if (props.isLoading) {
-      headerText = "Event inladen";
-    }
   }
 
   return (
-    <form className={classes.EventDiv}>
-      <h2 className={classes.h2}>{headerText}</h2>
+    <form className={[props.method === "post" && classes.EventDiv].join(" ")}>
+      <h2
+        className={[
+          classes.h2,
+          props.method === "patch" && classes.h2Small,
+        ].join(" ")}
+      >
+        {headerText}
+      </h2>
       {!eventCreated && !isLoading && !props.isLoading && (
         <>
           <Input
@@ -193,16 +207,17 @@ const EventShow = (props) => {
           </div>
           <Button
             btnType="primary"
+            small={props.method === "patch"}
             clicked={btnClickedHandler}
             disabledS={!eventState.isValid}
           >
-            Maak event
+            {btnText}
           </Button>
-          {(error || props.error) && <p className={classes.error}>{error}</p>}
+          {error && <p className={classes.error}>{error}</p>}
         </>
       )}
-      {(isLoading || props.isLoading) && <LoadingSpinner />}
-      {eventCreated && !isLoading && !props.isLoading && (
+      {isLoading && <LoadingSpinner />}
+      {eventCreated && !isLoading && props.method === "post" && (
         <Button small btnType="secondary" clicked={nieuwEventHandler}>
           Maak nog een event
         </Button>

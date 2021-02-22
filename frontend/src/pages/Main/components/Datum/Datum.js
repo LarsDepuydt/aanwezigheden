@@ -27,26 +27,22 @@ const getDay = (date) => {
 
 const Datum = (props) => {
   const { event } = props;
+  const id = event._id;
 
-  const { changeState } = props;
-  const { _id } = event;
-  const changeStateHandler = (value) => {
-    changeState(value, _id);
-  };
-
-  const text =
-    event.name +
-    " om " +
-    event.date.getHours() +
-    " uur " +
-    event.date.getMinutes();
   return (
     <div className={classes.DatumDiv}>
       <div>
         <p className={classes.day}>{getDay(event.date)}</p>
         <p className={classes.date}>{event.date.getDate()}</p>
       </div>
-      <Card text={text} state={event.state} changeState={changeStateHandler} />
+      <Card
+        id={id}
+        name={event.name}
+        date={event.date}
+        state={event.state}
+        changeState={(value) => props.changeState(value, id)}
+        eventUpdated={(obj) => props.eventUpdated(obj, id)}
+      />
     </div>
   );
 };

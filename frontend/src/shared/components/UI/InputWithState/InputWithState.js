@@ -22,22 +22,12 @@ const inputReducer = (state, action) => {
 };
 
 const InputWithState = (props) => {
-  const [inputState, dispatch] = useReducer(inputReducer, {
-    value: "",
-    touched: props.touched || false,
-    isValid: false,
-  });
-
   const { initialValue, validators } = props;
-  useEffect(() => {
-    if (initialValue) {
-      dispatch({
-        type: "CHANGE",
-        value: initialValue,
-        isValid: validate(initialValue, validators),
-      });
-    }
-  }, [initialValue, validators]);
+  const [inputState, dispatch] = useReducer(inputReducer, {
+    value: initialValue || "",
+    touched: props.touched || false,
+    isValid: validate(initialValue, validators) || false,
+  });
 
   const { onInput } = props;
   const { value, isValid } = inputState;

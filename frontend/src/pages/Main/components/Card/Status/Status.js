@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-import { ReactComponent as Check } from "../../../../assets/icons/noun_check_1388035.svg";
-import { ReactComponent as Cross } from "../../../../assets/icons/noun_cross_3077578.svg";
-import { ReactComponent as Arrow } from "../../../../assets/icons/noun_down_3456470.svg";
+import { ReactComponent as Check } from "../../../../../assets/icons/noun_check_1388035.svg";
+import { ReactComponent as Cross } from "../../../../../assets/icons/noun_cross_3077578.svg";
+import { ReactComponent as Arrow } from "../../../../../assets/icons/noun_down_3456470.svg";
 
 import classes from "./Status.module.scss";
 

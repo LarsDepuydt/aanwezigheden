@@ -13,6 +13,9 @@ const Year = (props) => {
         changeState={(v, id, n, m) =>
           props.changeState(v, id, n, m, props.year)
         }
+        eventUpdated={(obj, id, n, m) =>
+          props.eventUpdated(obj, id, n, m, props.year)
+        }
       />
     ));
   }

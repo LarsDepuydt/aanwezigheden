@@ -48,6 +48,14 @@ const Month = (props) => {
             props.monthNumber
           )
         }
+        eventUpdated={(obj, id) =>
+          props.eventUpdated(
+            obj,
+            id,
+            props.events.indexOf(event),
+            props.monthNumber
+          )
+        }
       />
     ));
   }

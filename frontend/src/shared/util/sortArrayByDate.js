@@ -1,7 +1,5 @@
-export const sortArrayByDate = (eventsArray) => {
-  let yearsObject = {};
-  let test = "test";
-  console.log(eventsArray.length);
+export const sortArrayByDate = (eventsArray, sortedYearsObject) => {
+  let yearsObject = sortedYearsObject || {};
 
   for (const event of eventsArray) {
     const date = new Date(event.date);
@@ -27,8 +25,6 @@ export const sortArrayByDate = (eventsArray) => {
           monthArray.splice(position, 0, event);
           break;
         } else if (day === monthEvent.date.getDate()) {
-          console.log("new:", date.getHours());
-          console.log("compare:", monthEvent.date.getHours());
           if (date.getHours() < monthEvent.date.getHours()) {
             const position = monthArray.indexOf(monthEvent);
             monthArray.splice(position, 0, event);
@@ -71,10 +67,7 @@ export const sortArrayByDate = (eventsArray) => {
         }
       }
     }
-    console.log(yearsObject);
   }
-  console.log("outside:", yearsObject);
-  console.log("test");
 
   return yearsObject;
 };
