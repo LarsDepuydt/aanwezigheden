@@ -3,7 +3,6 @@ import { AuthContext } from "./shared/hooks/auth-context";
 import { BrowserRouter as Router } from "react-router-dom";
 import { useAuth } from "./shared/hooks/auth-hook";
 
-import GetVid from "./shared/components/hoc/GetVid/GetVid";
 import NieuweVereniging from "./pages/NieuweVereniging/NieuweVereniging";
 import SignInUp from "./pages/SignInUp/SignInUp";
 import Main from "./pages/Main/Main";
@@ -31,14 +30,10 @@ const App = () => {
           <NieuweVereniging />
         </Route>
         <Route path="/:verenigingNaam/inloggen">
-          <GetVid>
-            <SignInUp signIn={true} />
-          </GetVid>
+          <SignInUp signIn={true} />
         </Route>
         <Route path="/:verenigingNaam/registreren">
-          <GetVid>
-            <SignInUp signIn={false} />
-          </GetVid>
+          <SignInUp signIn={false} />
         </Route>
         <Redirect from="/:verenigingNaam" to="/:verenigingNaam/inloggen" />
         <Redirect to="/nieuwe-vereniging" />

@@ -5,7 +5,7 @@ import { AuthContext } from "../../shared/hooks/auth-context";
 import { sortArrayByDate } from "../../shared/util/sortArrayByDate";
 
 import Year from "./components/Year/Year";
-import Spinner from "../../shared/components/HttpHandling/Spinners/LoadinsSpinnerCenter/LoadingSpinnerCenter";
+import Spinner from "../../shared/components/HttpHandling/Spinners/LoadingSpinnerCenter/LoadingSpinnerCenter";
 import PageError from "../../shared/components/HttpHandling/PageError/PageError";
 
 const Main = () => {
