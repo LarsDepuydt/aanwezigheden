@@ -22,12 +22,38 @@ const inputReducer = (state, action) => {
 };
 
 const InputWithState = (props) => {
-  const { initialValue, validators } = props;
-  const [inputState, dispatch] = useReducer(inputReducer, {
-    value: initialValue || "",
+  const { validators, initialValue, type } = props;
+
+  let initialState = {
+    value: props.initialValue || "",
     touched: props.touched || false,
-    isValid: validate(initialValue, validators) || false,
-  });
+    isValid: validate(props.initialValue, props.validators),
+  };
+  if (type === "date" && initialValue !== undefined) {
+    const curr = new Date(initialValue);
+    const initialValue_new = curr.toISOString().substr(0, 10);
+
+    initialState = {
+      value: initialValue_new,
+      touched: props.touched || false,
+      isValid: validate(initialValue_new, validators),
+    };
+  }
+
+  if (type === "time" && initialValue !== undefined) {
+    const splitted = initialValue.split(":");
+    const hour = ("0" + splitted[0]).slice(-2);
+    const minutes = ("0" + splitted[1]).slice(-2);
+    const initialValue_new = hour + ":" + minutes;
+
+    initialState = {
+      value: initialValue_new,
+      touched: props.touched || false,
+      isValid: validate(initialValue_new, validators),
+    };
+  }
+
+  const [inputState, dispatch] = useReducer(inputReducer, initialState);
 
   const { onInput } = props;
   const { value, isValid } = inputState;

@@ -1,11 +1,11 @@
 {
   "name": "aanwezighedenbackend",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "start-dev": "nodemon app.js",
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,15 +16,24 @@
     "cors": "^2.8.5",
     "csurf": "^1.11.0",
     "express": "^4.17.1",
-    "express-mongo-sanitize": "^2.0.2",
-    "express-validator": "^6.9.2",
-    "helmet": "^4.4.1",
+    "express-mongo-sanitize": "^2.1.0",
+    "express-validator": "^6.12.0",
+    "helmet": "^4.6.0",
     "hpp": "^0.2.3",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.11.16",
+    "mongoose": "^5.13.0",
     "mongoose-unique-validator": "^2.0.3"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
-  }
+    "nodemon": "^2.0.9"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LarsDepuydt/backend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LarsDepuydt/backend/issues"
+  },
+  "homepage": "https://github.com/LarsDepuydt/backend#readme",
+  "description": ""
 }

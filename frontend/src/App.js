@@ -6,23 +6,41 @@ import { useAuth } from "./shared/hooks/auth-hook";
 import NieuweVereniging from "./pages/NieuweVereniging/NieuweVereniging";
 import SignInUp from "./pages/SignInUp/SignInUp";
 import Main from "./pages/Main/Main";
+import NewEvent from "./pages/Admin/NewEvent/NewEvent";
 import Navigation from "./shared/components/hoc/Navigation/Navigation";
-import PageError from "./shared/components/HttpHandling/PageError/PageError";
+import Footer from "./pages/Footer/Footer";
 
 const App = () => {
-  const { token, admin, login, logout, userId, vid, setVid } = useAuth();
+  const { token, admin, login, logout, userId, vereniging } = useAuth();
 
   let routes;
   if (token) {
-    routes = (
-      <Switch>
-        <Route exact path="/:verenigingNaam">
-          <Main />
-        </Route>
-        <Redirect from="/:verenigingNaam" to="/:verenigingNaam" />
-        <PageError error="Vereniging bestaat niet" />
-      </Switch>
-    );
+    if (admin) {
+      routes = (
+        <Switch>
+          <Redirect from="/nieuwe-vereniging" to="/" />
+          <Route exact path={"/" + vereniging + "/nieuw-event"}>
+            <NewEvent />
+          </Route>
+          <Route exact path={"/" + vereniging}>
+            <Main />
+          </Route>
+          <Redirect from={"/" + vereniging} to={"/" + vereniging} />
+          <Redirect to={"/" + vereniging} />
+        </Switch>
+      );
+    } else {
+      routes = (
+        <Switch>
+          <Redirect from="/nieuwe-vereniging" to="/" />
+          <Route exact path={"/" + vereniging}>
+            <Main />
+          </Route>
+          <Redirect from={"/" + vereniging} to={"/" + vereniging} />
+          <Redirect to={"/" + vereniging} />
+        </Switch>
+      );
+    }
   } else {
     routes = (
       <Switch>
@@ -49,19 +67,20 @@ const App = () => {
         token: token,
         csrf: "",
         admin: admin,
-        vid,
+        vereniging,
         login,
         logout,
-        setVid,
       }}
     >
       <Router>
         <header>
-          <h1>Aanwezigheden Chiro Skippy</h1>
+          <h1>Aanwezigheden</h1>
         </header>
         {token && <Navigation />}
         <main>{routes}</main>
-        <footer></footer>
+        <footer>
+          <Footer />
+        </footer>
       </Router>
     </AuthContext.Provider>
   );

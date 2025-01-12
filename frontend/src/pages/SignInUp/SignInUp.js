@@ -4,7 +4,7 @@ import {
   VALIDATOR_MINLENGTH,
 } from "../../shared/util/validators";
 import { updateObject } from "../../shared/util/utility";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { AuthContext } from "../../shared/hooks/auth-context";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 
@@ -36,7 +36,7 @@ const SignUp = (props) => {
   const [signinInfo, dispatch] = useReducer(signinReducer, {
     voornaam: { value: "", isValid: false },
     achternaam: { value: "", isValid: false },
-    geboortejaar: { value: yearOptions[0].value, isValid: true },
+    geboortejaar: { value: yearOptions[0], isValid: true },
     password: { value: "", isValid: false },
     isValid: false,
   });
@@ -65,30 +65,32 @@ const SignUp = (props) => {
   }, []);
 
   const history = useHistory();
+  const params = useParams();
 
   const changeSignInHandler = (event) => {
     event.preventDefault();
     if (signIn) {
-      history.push("/registreren");
+      history.push("/" + params.verenigingNaam + "/registreren");
     } else {
-      history.push("/inloggen");
+      history.push("/" + params.verenigingNaam + "/inloggen");
     }
   };
 
-  const ref1 = useRef(null);
-  const ref2 = useRef(null);
-  const ref3 = useRef(null);
+  const ref1 = useRef();
+  const ref2 = useRef();
+  const ref3 = useRef();
 
   const buttonClickedHandler = async (event) => {
     event.preventDefault();
     if (signinInfo.isValid) {
       const username =
         signinInfo.voornaam.value + " " + signinInfo.achternaam.value;
+      const vname = params.verenigingNaam;
 
       if (signIn) {
         try {
           const responseData = await sendRequest(
-            `api/users/${auth.vid}/login`,
+            `api/users/${vname}/login`,
             "patch",
             {
               username,
@@ -98,13 +100,14 @@ const SignUp = (props) => {
           auth.login(
             responseData.userId,
             responseData.token,
-            responseData.admin
+            responseData.admin,
+            vname
           );
         } catch (err) {}
       } else {
         try {
           const responseData = await sendRequest(
-            `api/users/${auth.vid}/signup`,
+            `api/users/${vname}/signup`,
             "post",
             {
               username,
@@ -116,10 +119,13 @@ const SignUp = (props) => {
           auth.login(
             responseData.userId,
             responseData.token,
-            responseData.admin
+            responseData.admin,
+            vname
           );
         } catch (err) {}
       }
+
+      history.push("/" + vname);
     } else {
       setTouchedState(true);
       if (!signinInfo.voornaam.isValid) {
@@ -153,7 +159,7 @@ const SignUp = (props) => {
               childRef={ref1}
               {...(touchedState && { touched: true })}
             >
-              Voornaam lid
+              Voornaam
             </Input>
           </div>
           <div className={classes.halfDiv}>
@@ -170,7 +176,7 @@ const SignUp = (props) => {
               childRef={ref2}
               {...(touchedState && { touched: true })}
             >
-              Achternaam lid
+              Achternaam
             </Input>
           </div>
         </div>

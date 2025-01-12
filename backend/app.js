@@ -29,8 +29,15 @@ const app = express();
 app.use(helmet());
 
 // enables cors
+const whitelist = process.env.FRONTEND_URL.split(" ");
 const corsOptions = {
-  origin: process.env.FRONTEND_URL,
+  origin: (origin, callback) => {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: "GET, POST, PATCH, DELETE",
   allowHeaders:
     "Access-Control-Allow-Origin, Origin, X-Requested-With, Content-Type, Accept, Authorization",
@@ -81,13 +88,16 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-  .connect(process.env.DB_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  })
+  .connect(
+    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@aanwezigheden.5nglt.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+    }
+  )
   .then(() => {
-    app.listen(5000);
+    app.listen(process.env.PORT || 5000);
   })
   .catch((err) => {
     console.log(err);

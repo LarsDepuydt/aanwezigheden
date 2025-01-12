@@ -1,9 +1,42 @@
-.nav {
-  display: flex;
-  flex-direction: row-reverse;
-  margin: 1vh 3vw;
+@use "../../../scss/mixins" as m;
 
-  button {
+.nav {
+  margin: 1vh 3vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(30px + 5vh);
+  background-color: white;
+  margin-top: 0;
+  margin-left: 0;
+  margin-right: 0;
+  z-index: 110;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.26);
+
+  .ul {
     margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-end;
+    height: 100%;
+
+    .li {
+      list-style: none;
+
+      .navItem:not([disabled]) {
+        text-decoration: none;
+        @include m.btnStandaard();
+        @include m.link();
+        @include m.small();
+      }
+
+      .navItem:not([disabled]):focus,
+      .navItem:not([disabled]):hover {
+        @include m.linkFocus();
+      }
+    }
   }
 }

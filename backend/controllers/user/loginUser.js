@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const checkInput = require("../../util/checkInput");
 
 const User = require("../../models/user");
+const Vereniging = require("../../models/vereniging");
 const HttpError = require("../../models/http-error");
 
 const login = async (req, res, next) => {
@@ -12,7 +13,25 @@ const login = async (req, res, next) => {
   }
 
   const { username, password } = req.body;
-  const { vid } = req.params;
+  const { vname } = req.params;
+  const vname_spaced = vname.replace("-", " ");
+
+  let vid;
+  try {
+    vereniging = await Vereniging.findOne(
+      {
+        name: vname_spaced,
+      },
+      "id"
+    );
+    vid = vereniging._id;
+  } catch (err) {
+    const error = new HttpError(
+      "Failed while searching for vereniging id",
+      500
+    );
+    return next(error);
+  }
 
   let existingUser;
   try {
