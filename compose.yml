@@ -1,0 +1,51 @@
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "80:80"
+    env_file:
+      - ./frontend/.env.local
+    # volumes:
+    #   - ./frontend:/app
+    depends_on:
+      - backend
+    stdin_open: true #Keep the container running
+    tty: true #Keep the container interactive
+
+  testing:
+    image: ubuntu:latest
+    stdin_open: true #Keep the container running
+    tty: true #Keep the container interactive
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend
+    ports:
+      - "5000:${BACKEND_PORT}"
+    env_file:
+      - ./backend/.env.local
+    # volumes:
+    #   - ./backend:/app
+    depends_on:
+      - mongo
+    stdin_open: true #Keep the container running
+    tty: true #Keep the container interactive
+
+  mongo:
+    image: mongo:6.0 # Use the latest stable MongoDB version
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    env_file:
+      - ./backend/.env.local
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${DB_ADMIN_USER} # Use values from .env file
+      - MONGO_INITDB_ROOT_PASSWORD=${DB_ADMIN_PASSWORD}
+      - MONGO_INITDB_DATABASE=${DB_NAME}
+    restart: always
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:

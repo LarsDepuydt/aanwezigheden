@@ -29,20 +29,41 @@ const app = express();
 app.use(helmet());
 
 // enables cors
-const whitelist = process.env.FRONTEND_URL.split(" ");
+const whitelist = process.env.FRONTEND_URL.split(",");
+// const corsOptions = {
+//   origin: (origin, callback) => {
+//     console.log("Received origin:", origin); // Log the origin of the request
+//     if (whitelist.indexOf(origin) !== -1 || !origin) {
+//       // Allow empty origin (for local testing)
+//       callback(null, true); // Allow the request
+//     } else {
+//       console.log("Not allowed by CORS for origin:", origin);
+//       callback(new Error("Not allowed by CORS")); // Deny the request
+//     }
+//   },
+//   methods: "GET, POST, PATCH, DELETE, OPTIONS", // Ensure OPTIONS is included
+//   allowedHeaders:
+//     "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+// };
 const corsOptions = {
-  origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  methods: "GET, POST, PATCH, DELETE",
-  allowHeaders:
-    "Access-Control-Allow-Origin, Origin, X-Requested-With, Content-Type, Accept, Authorization",
+  origin: "*", // Allow all origins for now to test
+  methods: "GET, POST, PATCH, DELETE, OPTIONS",
+  allowedHeaders: "Content-Type, Accept, Authorization",
 };
 app.use(cors(corsOptions));
+
+app.options("*", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*"); // Allow all origins for now
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PATCH, DELETE, OPTIONS",
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Accept, Authorization",
+  );
+  res.status(204).send(); // No content response
+});
 
 // parse the data
 app.use(bodyParser.json());
@@ -87,17 +108,18 @@ app.use((error, req, res, next) => {
     .json({ message: error.message || "An unkown error occurred!" });
 });
 
+const dbURI = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 mongoose
-  .connect(
-    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@aanwezigheden.5nglt.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-    }
-  )
+  .connect(dbURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  })
   .then(() => {
-    app.listen(process.env.PORT || 5000);
+    app.listen(process.env.BACKEND_PORT, () => {
+      console.log(whitelist);
+      console.log(`Server running on port ${process.env.BACKEND_PORT}`);
+    });
   })
   .catch((err) => {
     console.log(err);
